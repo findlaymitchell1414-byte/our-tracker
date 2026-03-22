@@ -435,6 +435,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
   </div>
 </div>
 
+<!-- Load config before the app module -->
+<script src="config.js"></script>
+
 <!-- ============================================================
      FIREBASE + APP SCRIPT
      ============================================================ -->
@@ -446,38 +449,24 @@ import { getAuth, signInAnonymously, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 // ============================================================
-//  🔧 CONFIGURATION
+//  CONFIG — values come from config.js (not committed to GitHub)
 // ============================================================
+if (typeof CONFIG === 'undefined') {
+  document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#c00">⚠️ config.js not found. Make sure config.js is in the same folder as index.html.</div>';
+  throw new Error('CONFIG not defined — config.js missing');
+}
 
-// 🔧 PASSWORD: Change this
-const APP_PASSWORD = 'finnybean!';
-
-// 🔧 CALORIE GOAL per person
-const CALORIE_GOAL = 2000;
-
-// 🔧 PARTNER NAMES: Change these!
-const PARTNER_NAMES = {
-  p1: 'Fin',  // 🔧 e.g. 'Alex'
-  p2: 'Em'   // 🔧 e.g. 'Jordan'
-};
+const APP_PASSWORD   = CONFIG.password;
+const CALORIE_GOAL   = CONFIG.calorieGoal;
+const PARTNER_NAMES  = CONFIG.names;
+const firebaseConfig = CONFIG.firebase;
 
 const DEFAULT_TASKS = [
   'Track meals 🍽️',
   'Exercise 💪',
   'Drink water (8 glasses) 💧',
-  'Take meds 💊'
+  'Take vitamins/meds 💊'
 ];
-
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyDH_7YYgamMLRJv2xZxX8uO47BJUhlC0P0",
-  authDomain: "our-tracker-bfff2.firebaseapp.com",
-  databaseURL: "https://our-tracker-bfff2-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "our-tracker-bfff2",
-  storageBucket: "our-tracker-bfff2.firebasestorage.app",
-  messagingSenderId: "1098550772858",
-  appId: "1:1098550772858:web:3926088219c59a4d12e7c3"
-};
 
 const fbApp = initializeApp(firebaseConfig);
 const db = getDatabase(fbApp);
