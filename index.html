@@ -1241,7 +1241,7 @@ function showDayDetail(dateStr,data){
     <div class="day-detail-title">${label}<button class="day-detail-close" onclick="document.getElementById('day-detail-wrap').innerHTML=''">✕</button></div>
     <div class="score-ring ${cls}">
       <div class="score-ring-pct">${data.pct}%</div>
-      <div class="score-ring-label">combined score<br><span style="font-size:10px;opacity:0.8;">${data.totalEarned?.toFixed?.(1)??data.totalEarned||0} / ${data.totalPossible||0} points</span></div>
+      <div class="score-ring-label">combined score<br><span style="font-size:10px;opacity:0.8;">${(data.totalEarned?.toFixed?.(1) ?? data.totalEarned ?? 0)} / ${data.totalPossible||0} points</span></div>
     </div>
     <div class="day-detail-section">
       <div class="day-detail-label">Tasks</div>
