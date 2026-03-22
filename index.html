@@ -442,28 +442,30 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, push, remove, update }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, signInAnonymously, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 // ============================================================
 //  🔧 CONFIGURATION
 // ============================================================
 
 // 🔧 PASSWORD: Change this
-const APP_PASSWORD = 'couple2025';
+const APP_PASSWORD = 'finnybean!';
 
 // 🔧 CALORIE GOAL per person
 const CALORIE_GOAL = 2000;
 
 // 🔧 PARTNER NAMES: Change these!
 const PARTNER_NAMES = {
-  p1: 'Partner 1',  // 🔧 e.g. 'Alex'
-  p2: 'Partner 2'   // 🔧 e.g. 'Jordan'
+  p1: 'Fin',  // 🔧 e.g. 'Alex'
+  p2: 'Em'   // 🔧 e.g. 'Jordan'
 };
 
 const DEFAULT_TASKS = [
   'Track meals 🍽️',
   'Exercise 💪',
   'Drink water (8 glasses) 💧',
-  'Take vitamins/meds 💊'
+  'Take meds 💊'
 ];
 
 // Firebase config
@@ -479,6 +481,7 @@ const firebaseConfig = {
 
 const fbApp = initializeApp(firebaseConfig);
 const db = getDatabase(fbApp);
+const auth = getAuth(fbApp);
 
 // ============================================================
 //  THEMES
@@ -590,7 +593,19 @@ function initApp() {
   document.getElementById('date-badge').textContent =
     new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short' });
 
-  attachListeners();
+  // Sign in anonymously — this satisfies the auth != null Firebase rule
+  // The user never sees this; it happens silently after the password check passes
+  signInAnonymously(auth).catch(err => {
+    console.error('Auth error:', err);
+    setSyncStatus(false);
+  });
+
+  // Wait for auth to confirm before attaching DB listeners
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      attachListeners();
+    }
+  });
 }
 
 function attachListeners() {
