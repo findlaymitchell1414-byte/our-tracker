@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Daily Tracker 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   THEME VARIABLES
+   ============================================ */
+:root {
+  --bg: #fdf6f0; --bg2: #fef0ea; --card: #ffffff; --card2: #fff8f5;
+  --accent1: #e8849a; --accent2: #c4607a; --accent3: #f5b8c4; --accent4: #fce4ec;
+  --text: #3a2a30; --text2: #7a5a64; --text3: #b08a94; --border: #f0d0d8;
+  --shadow: rgba(200,100,120,0.12); --gradient: linear-gradient(135deg,#f9c6d0 0%,#e8849a 100%);
+  --tag-bg: #fce4ec;
+}
+[data-theme="teal"] {
+  --bg:#f0faf8;--bg2:#e6f7f4;--card:#fff;--card2:#f5fdfb;
+  --accent1:#2bada0;--accent2:#1d8a7e;--accent3:#7dd4cd;--accent4:#d0f0ec;
+  --text:#1a3330;--text2:#3a6660;--text3:#6a9c96;--border:#b8e4e0;
+  --shadow:rgba(43,173,160,0.12);--gradient:linear-gradient(135deg,#9ee5df 0%,#2bada0 100%);--tag-bg:#d0f0ec;
+}
+[data-theme="dark"] {
+  --bg:#1a1520;--bg2:#211a28;--card:#2a2233;--card2:#241e2e;
+  --accent1:#b57bee;--accent2:#9550d4;--accent3:#d4a8f5;--accent4:#3a2850;
+  --text:#f0e8ff;--text2:#c0a8e0;--text3:#8870a8;--border:#3d2e55;
+  --shadow:rgba(181,123,238,0.15);--gradient:linear-gradient(135deg,#7c4dbf 0%,#b57bee 100%);--tag-bg:#3a2850;
+}
+[data-theme="warm"] {
+  --bg:#fdf8f0;--bg2:#faf0e0;--card:#fff;--card2:#fffbf5;
+  --accent1:#d4891a;--accent2:#b06a05;--accent3:#f0b860;--accent4:#fde8c0;
+  --text:#2e2010;--text2:#6e5030;--text3:#a08060;--border:#e8d0a0;
+  --shadow:rgba(212,137,26,0.12);--gradient:linear-gradient(135deg,#f5cc80 0%,#d4891a 100%);--tag-bg:#fde8c0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background 0.4s, color 0.4s; }
+
+/* PASSWORD SCREEN */
+#lock-screen { position:fixed;inset:0;background:var(--gradient);display:flex;align-items:center;justify-content:center;z-index:1000;transition:opacity 0.6s; }
+#lock-screen.fade-out { opacity:0;pointer-events:none; }
+.lock-card { background:white;border-radius:28px;padding:48px 40px;width:min(380px,90vw);text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.15);animation:slideUp 0.5s ease; }
+@keyframes slideUp { from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)} }
+.lock-emoji { font-size:48px;margin-bottom:16px; }
+.lock-card h1 { font-family:'Playfair Display',serif;font-size:28px;color:#3a2a30;margin-bottom:8px; }
+.lock-card p { color:#7a5a64;font-size:14px;margin-bottom:28px; }
+.lock-input { width:100%;padding:14px 18px;border:2px solid #f0d0d8;border-radius:14px;font-family:'DM Sans',sans-serif;font-size:16px;outline:none;text-align:center;letter-spacing:3px;transition:border-color 0.2s;color:#3a2a30; }
+.lock-input:focus { border-color:#e8849a; }
+.lock-input.error { border-color:#e84949;animation:shake 0.4s; }
+@keyframes shake { 0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)} }
+.lock-btn { margin-top:16px;width:100%;padding:14px;background:var(--gradient);border:none;border-radius:14px;color:white;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s; }
+.lock-btn:hover { transform:translateY(-2px);box-shadow:0 8px 20px rgba(200,100,120,0.3); }
+.lock-error { color:#e84949;font-size:13px;margin-top:10px;min-height:20px; }
+
+/* SYNC STATUS */
+.sync-dot { width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px;background:#aaa;transition:background 0.3s; }
+.sync-dot.live { background:#4caf50; }
+.sync-dot.offline { background:#e84949; }
+.sync-label { font-size:12px;color:var(--text3); }
+
+/* MAIN APP */
+#app { display:none; }
+#app.visible { display:block; }
+
+/* Header */
+.app-header { background:var(--card);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px var(--shadow); }
+.header-title { font-family:'Playfair Display',serif;font-size:20px;color:var(--accent1); }
+.header-right { display:flex;align-items:center;gap:8px; }
+.theme-btn { background:var(--tag-bg);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);transition:all 0.2s;font-family:'DM Sans',sans-serif; }
+.theme-btn:hover { background:var(--accent4);color:var(--accent1); }
+.date-badge { background:var(--accent4);color:var(--accent2);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:500; }
+
+/* Nav */
+.nav-tabs { display:flex;background:var(--card);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none; }
+.nav-tabs::-webkit-scrollbar { display:none; }
+.nav-tab { flex:1;min-width:70px;padding:13px 12px;text-align:center;cursor:pointer;font-size:12px;font-weight:500;color:var(--text3);border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap;font-family:'DM Sans',sans-serif;background:none;border-top:none;border-left:none;border-right:none; }
+.nav-tab.active { color:var(--accent1);border-bottom-color:var(--accent1); }
+.nav-tab:hover { color:var(--accent2);background:var(--bg2); }
+
+.main-content { padding:16px;max-width:800px;margin:0 auto; }
+.section { display:none;animation:fadeIn 0.3s ease; }
+.section.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
+
+/* Cards */
+.card { background:var(--card);border-radius:20px;border:1px solid var(--border);margin-bottom:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow); }
+.card-header { padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border); }
+.card-title { font-family:'Playfair Display',serif;font-size:17px;color:var(--text); }
+.card-body { padding:14px 18px; }
+
+/* Tasks */
+.task-item { display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);transition:opacity 0.3s; }
+.task-item:last-child { border-bottom:none; }
+.task-item.done .task-label { text-decoration:line-through;color:var(--text3); }
+.task-check { width:24px;height:24px;border-radius:8px;border:2px solid var(--accent3);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.25s;flex-shrink:0;font-size:14px;margin-top:1px; }
+.task-check.checked { background:var(--accent1);border-color:var(--accent1); }
+.task-check.checked::after { content:'✓';color:white;font-weight:700;font-size:13px; }
+.task-label { flex:1;font-size:14px;color:var(--text);line-height:1.4; }
+.task-note-btn { background:var(--tag-bg);border:none;border-radius:8px;padding:4px 9px;font-size:11px;cursor:pointer;color:var(--text2);transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap; }
+.task-note-btn:hover { background:var(--accent4);color:var(--accent1); }
+.task-delete { background:none;border:none;cursor:pointer;color:var(--text3);font-size:15px;padding:3px;transition:color 0.2s; }
+.task-delete:hover { color:#e84949; }
+.task-note { font-size:11px;color:var(--text3);margin-top:3px;padding:5px 8px;background:var(--bg2);border-radius:7px;font-style:italic; }
+
+.add-row { display:flex;gap:8px;margin-top:10px; }
+.add-input { flex:1;padding:10px 13px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--bg2);color:var(--text);outline:none;transition:border-color 0.2s; }
+.add-input:focus { border-color:var(--accent1);background:var(--card); }
+.add-btn { padding:10px 16px;background:var(--accent1);color:white;border:none;border-radius:12px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap; }
+.add-btn:hover { background:var(--accent2);transform:translateY(-1px); }
+
+.progress-wrap { margin:10px 0; }
+.progress-label { display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:5px; }
+.progress-bar { height:7px;background:var(--accent4);border-radius:99px;overflow:hidden; }
+.progress-fill { height:100%;background:var(--gradient);border-radius:99px;transition:width 0.5s ease; }
+
+/* Calories */
+.calorie-total { text-align:center;padding:18px;background:var(--gradient);border-radius:16px;margin-bottom:14px;color:white; }
+.calorie-total-num { font-family:'Playfair Display',serif;font-size:46px;font-weight:700;line-height:1; }
+.calorie-total-label { font-size:13px;opacity:0.85;margin-top:4px; }
+.food-item { display:flex;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);gap:8px; }
+.food-item:last-child { border-bottom:none; }
+.food-name { flex:1;font-size:13px;color:var(--text); }
+.food-cals { font-weight:600;color:var(--accent1);font-size:13px;white-space:nowrap; }
+.food-user-tag { font-size:10px;background:var(--tag-bg);color:var(--text2);border-radius:6px;padding:2px 7px; }
+.food-delete { background:none;border:none;cursor:pointer;color:var(--text3);font-size:13px;padding:2px;transition:color 0.2s; }
+.food-delete:hover { color:#e84949; }
+.calorie-form { display:flex;flex-wrap:wrap;gap:8px;margin-top:10px; }
+.cal-input { width:85px!important;flex:none!important; }
+.user-select { padding:10px 13px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg2);color:var(--text);outline:none;cursor:pointer;transition:border-color 0.2s; }
+.user-select:focus { border-color:var(--accent1); }
+.goal-bars { display:flex;gap:12px; }
+.goal-bar-item { flex:1; }
+.goal-bar-name { font-size:12px;color:var(--text2);margin-bottom:3px;font-weight:500; }
+.goal-bar-sub { font-size:11px;color:var(--text3);margin-bottom:4px; }
+
+/* Logs */
+.log-entry { padding:12px;background:var(--bg2);border-radius:12px;margin-bottom:8px;border-left:3px solid var(--accent1); }
+.log-entry-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:5px; }
+.log-meta { font-size:11px;color:var(--text3); }
+.log-user-tag { font-size:10px;background:var(--accent4);color:var(--accent2);border-radius:6px;padding:2px 7px;font-weight:500; }
+.log-text { font-size:13px;color:var(--text);line-height:1.5; }
+.log-delete { background:none;border:none;cursor:pointer;color:var(--text3);font-size:13px;transition:color 0.2s; }
+.log-delete:hover { color:#e84949; }
+.log-form { display:flex;flex-direction:column;gap:8px;margin-top:10px; }
+.log-textarea { width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg2);color:var(--text);outline:none;resize:vertical;min-height:75px;transition:border-color 0.2s; }
+.log-textarea:focus { border-color:var(--accent1);background:var(--card); }
+.log-form-row { display:flex;gap:8px;flex-wrap:wrap; }
+
+/* Dashboard */
+.dash-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px; }
+@media(max-width:480px){.dash-grid{grid-template-columns:1fr;}}
+.dash-stat { background:var(--card);border-radius:18px;border:1px solid var(--border);padding:16px;text-align:center;box-shadow:0 2px 10px var(--shadow); }
+.dash-stat-num { font-family:'Playfair Display',serif;font-size:34px;color:var(--accent1);line-height:1; }
+.dash-stat-label { font-size:11px;color:var(--text3);margin-top:3px; }
+.dash-stat-sub { font-size:13px;color:var(--text2);font-weight:500;margin-top:2px; }
+
+/* Modal */
+.modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s; }
+.modal-overlay.open { opacity:1;pointer-events:all; }
+.modal { background:var(--card);border-radius:20px;padding:26px;width:min(380px,92vw);transform:translateY(20px);transition:transform 0.2s;box-shadow:0 20px 50px rgba(0,0,0,0.2); }
+.modal-overlay.open .modal { transform:translateY(0); }
+.modal h3 { font-family:'Playfair Display',serif;font-size:19px;margin-bottom:14px;color:var(--text); }
+.modal-actions { display:flex;gap:8px;margin-top:12px;justify-content:flex-end; }
+.btn-secondary { padding:9px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--text2);transition:all 0.2s; }
+.btn-secondary:hover { background:var(--accent4); }
+.btn-primary { padding:9px 16px;background:var(--accent1);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:white;font-weight:500;transition:all 0.2s; }
+.btn-primary:hover { background:var(--accent2); }
+
+/* Empty states */
+.empty-state { text-align:center;padding:28px 16px;color:var(--text3);font-size:13px; }
+.empty-state .empty-icon { font-size:32px;margin-bottom:7px; }
+
+/* Loading overlay */
+#loading-overlay { position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:900;gap:12px; }
+#loading-overlay.hidden { display:none; }
+.spinner { width:36px;height:36px;border:3px solid var(--accent4);border-top-color:var(--accent1);border-radius:50%;animation:spin 0.8s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.loading-text { font-size:14px;color:var(--text3); }
+
+/* Confetti */
+.confetti-wrap { position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden; }
+.confetti-piece { position:absolute;width:8px;height:8px;border-radius:2px;animation:confettiFall 1.5s ease-in forwards; }
+@keyframes confettiFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+/* Toast */
+.toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:11px 22px;border-radius:99px;font-size:13px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap; }
+.toast.show { opacity:1; }
+
+/* Task check animation */
+@keyframes checkPop { 0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)} }
+.task-check.pop { animation:checkPop 0.25s ease; }
+
+@media(max-width:580px){
+  .main-content{padding:12px;}
+  .calorie-form{flex-direction:column;}
+  .cal-input{width:100%!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="lock-screen">
+  <div class="lock-card">
+    <div class="lock-emoji">💕</div>
+    <h1>Our Daily Tracker</h1>
+    <p>Enter your shared password to continue</p>
+    <input type="password" class="lock-input" id="pw-input" placeholder="••••••••" />
+    <div class="lock-error" id="pw-error"></div>
+    <button class="lock-btn" onclick="checkPassword()">Enter ✨</button>
+  </div>
+</div>
+
+<!-- LOADING (shown after login while Firebase connects) -->
+<div id="loading-overlay" class="hidden">
+  <div class="spinner"></div>
+  <div class="loading-text">Syncing with the cloud… 💕</div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <header class="app-header">
+    <div class="header-title">💕 Our Tracker</div>
+    <div class="header-right">
+      <span class="sync-dot" id="sync-dot"></span>
+      <span class="sync-label" id="sync-label">connecting</span>
+      <button class="theme-btn" onclick="cycleTheme()">🎨</button>
+      <div class="date-badge" id="date-badge"></div>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('dashboard',this)">🏠 Home</button>
+    <button class="nav-tab" onclick="showSection('tasks',this)">✅ Tasks</button>
+    <button class="nav-tab" onclick="showSection('calories',this)">🥗 Calories</button>
+    <button class="nav-tab" onclick="showSection('logs',this)">📓 Logs</button>
+  </nav>
+
+  <div class="main-content">
+
+    <!-- DASHBOARD -->
+    <div class="section active" id="section-dashboard">
+      <div class="dash-grid">
+        <div class="dash-stat">
+          <div class="dash-stat-num" id="dash-tasks-done">—</div>
+          <div class="dash-stat-sub" id="dash-tasks-total">tasks</div>
+          <div class="dash-stat-label">completed today</div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-num" id="dash-cals-total">—</div>
+          <div class="dash-stat-sub">calories</div>
+          <div class="dash-stat-label">combined today</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">👫 Today's Summary</span>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:130px;">
+              <!-- 🔧 CHANGE NAME: Replace "Partner 1" with first person's name -->
+              <div style="font-weight:600;color:var(--accent1);margin-bottom:7px;">Partner 1</div>
+              <div id="dash-p1-tasks" style="font-size:12px;color:var(--text2);margin-bottom:3px;">— tasks</div>
+              <div id="dash-p1-cals" style="font-size:12px;color:var(--text2);">— kcal</div>
+            </div>
+            <div style="width:1px;background:var(--border);"></div>
+            <div style="flex:1;min-width:130px;">
+              <!-- 🔧 CHANGE NAME: Replace "Partner 2" with second person's name -->
+              <div style="font-weight:600;color:var(--accent2);margin-bottom:7px;">Partner 2</div>
+              <div id="dash-p2-tasks" style="font-size:12px;color:var(--text2);margin-bottom:3px;">— tasks</div>
+              <div id="dash-p2-cals" style="font-size:12px;color:var(--text2);">— kcal</div>
+            </div>
+          </div>
+          <div class="progress-wrap" style="margin-top:14px;">
+            <div class="progress-label"><span>Daily Tasks Progress</span><span id="dash-prog-label">0%</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="dash-prog-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">📝 Recent Notes</span>
+          <button class="task-note-btn" onclick="showSection('logs',document.querySelectorAll('.nav-tab')[3])">See all</button>
+        </div>
+        <div class="card-body" id="dash-recent-logs">
+          <div class="empty-state"><div class="empty-icon">🌱</div>No notes yet today</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASKS -->
+    <div class="section" id="section-tasks">
+      <div class="card">
+        <div class="card-header">
+          <!-- 🔧 CHANGE NAME: Replace "Partner 1" -->
+          <span class="card-title">✅ Partner 1's Tasks</span>
+          <span id="p1-task-progress" style="font-size:12px;color:var(--text3);">0/0</span>
+        </div>
+        <div class="card-body">
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill" id="p1-progress-bar" style="width:0%"></div></div>
+          </div>
+          <div id="p1-task-list"></div>
+          <div class="add-row">
+            <input type="text" class="add-input" id="p1-task-input" placeholder="Add a task…" />
+            <button class="add-btn" onclick="addTask('p1')">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <!-- 🔧 CHANGE NAME: Replace "Partner 2" -->
+          <span class="card-title">✅ Partner 2's Tasks</span>
+          <span id="p2-task-progress" style="font-size:12px;color:var(--text3);">0/0</span>
+        </div>
+        <div class="card-body">
+          <div class="progress-wrap">
+            <div class="progress-bar"><div class="progress-fill" id="p2-progress-bar" style="width:0%"></div></div>
+          </div>
+          <div id="p2-task-list"></div>
+          <div class="add-row">
+            <input type="text" class="add-input" id="p2-task-input" placeholder="Add a task…" />
+            <button class="add-btn" onclick="addTask('p2')">+ Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALORIES -->
+    <div class="section" id="section-calories">
+      <div class="calorie-total">
+        <div style="font-size:12px;opacity:0.85;margin-bottom:5px;">COMBINED TODAY</div>
+        <div class="calorie-total-num" id="cal-combined-total">0</div>
+        <div class="calorie-total-label">calories</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">📊 Per Person</span></div>
+        <div class="card-body">
+          <div class="goal-bars">
+            <div class="goal-bar-item">
+              <!-- 🔧 CHANGE NAME -->
+              <div class="goal-bar-name">Partner 1</div>
+              <div class="goal-bar-sub"><span id="p1-cal-num">0</span> kcal</div>
+              <div class="progress-bar"><div class="progress-fill" id="p1-cal-bar" style="width:0%"></div></div>
+            </div>
+            <div class="goal-bar-item">
+              <!-- 🔧 CHANGE NAME -->
+              <div class="goal-bar-name">Partner 2</div>
+              <div class="goal-bar-sub"><span id="p2-cal-num">0</span> kcal</div>
+              <div class="progress-bar"><div class="progress-fill" id="p2-cal-bar" style="width:0%"></div></div>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:9px;text-align:center;">
+            Goal: 2000 kcal per person <!-- 🔧 CALORIE GOAL: Change "2000" to your target -->
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span class="card-title">🍽️ Log Food</span></div>
+        <div class="card-body">
+          <div class="calorie-form">
+            <input type="text" class="add-input" id="food-name-input" placeholder="Food name…" />
+            <input type="number" class="add-input cal-input" id="food-cal-input" placeholder="kcal" min="0" />
+            <select class="user-select" id="food-user-select">
+              <!-- 🔧 CHANGE NAME: Replace option text -->
+              <option value="p1">Partner 1</option>
+              <option value="p2">Partner 2</option>
+            </select>
+            <button class="add-btn" onclick="addFood()">+ Log</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">📋 Today's Food Log</span>
+          <button class="task-note-btn" onclick="clearTodayFood()" style="color:#e84949;">Clear day</button>
+        </div>
+        <div class="card-body" id="food-log-list">
+          <div class="empty-state"><div class="empty-icon">🥑</div>Nothing logged yet!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGS -->
+    <div class="section" id="section-logs">
+      <div class="card">
+        <div class="card-header"><span class="card-title">✍️ Add a Note</span></div>
+        <div class="card-body">
+          <div class="log-form">
+            <textarea class="log-textarea" id="log-text-input" placeholder="Write a note, reflection, or progress update…"></textarea>
+            <div class="log-form-row">
+              <select class="user-select" id="log-user-select">
+                <!-- 🔧 CHANGE NAME -->
+                <option value="p1">Partner 1</option>
+                <option value="p2">Partner 2</option>
+              </select>
+              <button class="add-btn" onclick="addLog()">Save Note 💕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">📓 All Notes</span>
+          <button class="task-note-btn" onclick="clearOldLogs()" style="color:var(--text3);">Clear old</button>
+        </div>
+        <div class="card-body" id="log-list">
+          <div class="empty-state"><div class="empty-icon">📖</div>Your story starts here!</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /app -->
+
+<!-- Toast & Modal -->
+<div class="toast" id="toast"></div>
+<div class="modal-overlay" id="note-modal">
+  <div class="modal">
+    <h3 id="modal-title">Add Note</h3>
+    <textarea class="log-textarea" id="modal-note-input" placeholder="Add a note about this task…"></textarea>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveTaskNote()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     FIREBASE + APP SCRIPT
+     ============================================================ -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, push, remove, update }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+// ============================================================
+//  🔧 CONFIGURATION
+// ============================================================
+
+// 🔧 PASSWORD: Change this
+const APP_PASSWORD = 'couple2025';
+
+// 🔧 CALORIE GOAL per person
+const CALORIE_GOAL = 2000;
+
+// 🔧 PARTNER NAMES: Change these!
+const PARTNER_NAMES = {
+  p1: 'Partner 1',  // 🔧 e.g. 'Alex'
+  p2: 'Partner 2'   // 🔧 e.g. 'Jordan'
+};
+
+const DEFAULT_TASKS = [
+  'Track meals 🍽️',
+  'Exercise 💪',
+  'Drink water (8 glasses) 💧',
+  'Take vitamins/meds 💊'
+];
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyDH_7YYgamMLRJv2xZxX8uO47BJUhlC0P0",
+  authDomain: "our-tracker-bfff2.firebaseapp.com",
+  databaseURL: "https://our-tracker-bfff2-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "our-tracker-bfff2",
+  storageBucket: "our-tracker-bfff2.firebasestorage.app",
+  messagingSenderId: "1098550772858",
+  appId: "1:1098550772858:web:3926088219c59a4d12e7c3"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getDatabase(fbApp);
+
+// ============================================================
+//  THEMES
+// ============================================================
+const THEMES = ['','teal','dark','warm'];
+const THEME_NAMES = {'':'🌸 Rose','teal':'🌿 Teal','dark':'🌙 Dark','warm':'☀️ Warm'};
+let themeIndex = 0;
+
+function cycleTheme() {
+  themeIndex = (themeIndex + 1) % THEMES.length;
+  document.body.setAttribute('data-theme', THEMES[themeIndex]);
+  localStorage.setItem('couple_theme', THEMES[themeIndex]);
+  showToast('Theme: ' + THEME_NAMES[THEMES[themeIndex]]);
+}
+window.cycleTheme = cycleTheme;
+
+// ============================================================
+//  HELPERS
+// ============================================================
+function todayKey() { return new Date().toISOString().slice(0, 10); }
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function confetti() {
+  const wrap = document.createElement('div');
+  wrap.className = 'confetti-wrap';
+  document.body.appendChild(wrap);
+  const colors = ['#e8849a','#f5b8c4','#fff','#fce4ec','#c4607a','#f9c6d0'];
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.cssText = `left:${Math.random()*100}%;background:${colors[~~(Math.random()*colors.length)]};animation-delay:${Math.random()*0.6}s;animation-duration:${1.2+Math.random()*0.8}s;`;
+    wrap.appendChild(p);
+  }
+  setTimeout(() => wrap.remove(), 2500);
+}
+
+// ============================================================
+//  SYNC STATUS
+// ============================================================
+function setSyncStatus(live) {
+  document.getElementById('sync-dot').className = 'sync-dot ' + (live ? 'live' : 'offline');
+  document.getElementById('sync-label').textContent = live ? 'live' : 'offline';
+}
+
+// ============================================================
+//  NAV
+// ============================================================
+function showSection(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+window.showSection = showSection;
+
+// ============================================================
+//  PASSWORD
+// ============================================================
+function checkPassword() {
+  const val = document.getElementById('pw-input').value;
+  const input = document.getElementById('pw-input');
+  const err = document.getElementById('pw-error');
+  if (val === APP_PASSWORD) {
+    document.getElementById('lock-screen').classList.add('fade-out');
+    document.getElementById('loading-overlay').classList.remove('hidden');
+    setTimeout(() => {
+      document.getElementById('lock-screen').style.display = 'none';
+    }, 650);
+    initApp();
+  } else {
+    input.classList.add('error');
+    err.textContent = 'Wrong password — try again 🔒';
+    setTimeout(() => input.classList.remove('error'), 500);
+    input.value = '';
+  }
+}
+window.checkPassword = checkPassword;
+document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+
+// ============================================================
+//  FIREBASE DB PATHS
+//  Structure:
+//    /tasks/{person}/{date}/{taskId}  → { label, done, note, order }
+//    /calories/{date}/entries/{id}   → { name, cals, user, time }
+//    /logs/{id}                      → { text, user, date, time }
+// ============================================================
+
+// In-memory cache of latest DB snapshot (updated by listeners)
+let cache = { tasks: { p1: {}, p2: {} }, calories: {}, logs: {} };
+let listenersAttached = false;
+
+function initApp() {
+  // Theme
+  const saved = localStorage.getItem('couple_theme') || '';
+  themeIndex = THEMES.indexOf(saved); if (themeIndex < 0) themeIndex = 0;
+  document.body.setAttribute('data-theme', THEMES[themeIndex]);
+
+  // Date badge
+  document.getElementById('date-badge').textContent =
+    new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+
+  attachListeners();
+}
+
+function attachListeners() {
+  if (listenersAttached) return;
+  listenersAttached = true;
+  const today = todayKey();
+
+  // ---- Tasks ----
+  ['p1', 'p2'].forEach(person => {
+    const taskRef = ref(db, `tasks/${person}/${today}`);
+    onValue(taskRef, snap => {
+      setSyncStatus(true);
+      const data = snap.val() || {};
+      // If no tasks for today yet, seed defaults
+      if (Object.keys(data).length === 0) {
+        seedDefaultTasks(person, today);
+        return;
+      }
+      cache.tasks[person] = data;
+      renderTasks(person);
+      renderDashboard();
+      // Hide loading once first data arrives
+      document.getElementById('loading-overlay').classList.add('hidden');
+      document.getElementById('app').style.display = 'block';
+    }, err => { setSyncStatus(false); console.error(err); });
+  });
+
+  // ---- Calories ----
+  const calRef = ref(db, `calories/${today}/entries`);
+  onValue(calRef, snap => {
+    cache.calories = snap.val() || {};
+    renderCalories();
+    renderDashboard();
+  });
+
+  // ---- Logs ----
+  const logRef = ref(db, 'logs');
+  onValue(logRef, snap => {
+    cache.logs = snap.val() || {};
+    renderLogs();
+  });
+}
+
+function seedDefaultTasks(person, date) {
+  const updates = {};
+  DEFAULT_TASKS.forEach((label, i) => {
+    updates[`default_${i}`] = { label, done: false, note: '', order: i };
+  });
+  set(ref(db, `tasks/${person}/${date}`), updates);
+}
+
+// ============================================================
+//  TASKS
+// ============================================================
+function getTaskList(person) {
+  // Returns sorted array from cache
+  const raw = cache.tasks[person] || {};
+  return Object.entries(raw)
+    .map(([id, t]) => ({ id, ...t }))
+    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+}
+
+function renderTasks(person) {
+  const tasks = getTaskList(person);
+  const done = tasks.filter(t => t.done).length;
+  const pct = tasks.length ? Math.round(done / tasks.length * 100) : 0;
+
+  document.getElementById(person + '-progress-bar').style.width = pct + '%';
+  document.getElementById(person + '-task-progress').textContent = done + '/' + tasks.length;
+
+  const listEl = document.getElementById(person + '-task-list');
+  if (tasks.length === 0) {
+    listEl.innerHTML = '<div class="empty-state"><div class="empty-icon">🌟</div>No tasks yet</div>';
+    return;
+  }
+  listEl.innerHTML = '';
+  tasks.forEach(task => {
+    const div = document.createElement('div');
+    div.className = 'task-item' + (task.done ? ' done' : '');
+    div.innerHTML = `
+      <div class="task-check ${task.done ? 'checked' : ''}" data-person="${person}" data-id="${task.id}"></div>
+      <div style="flex:1">
+        <div class="task-label">${escHtml(task.label)}</div>
+        ${task.note ? `<div class="task-note">💬 ${escHtml(task.note)}</div>` : ''}
+      </div>
+      <button class="task-note-btn" data-note-person="${person}" data-note-id="${task.id}">📝 Note</button>
+      ${!task.id.startsWith('default_') ? `<button class="task-delete" data-del-person="${person}" data-del-id="${task.id}">✕</button>` : ''}
+    `;
+    listEl.appendChild(div);
+  });
+
+  // Delegate events
+  listEl.querySelectorAll('.task-check').forEach(el => {
+    el.addEventListener('click', () => toggleTask(el.dataset.person, el.dataset.id, el));
+  });
+  listEl.querySelectorAll('[data-note-person]').forEach(el => {
+    el.addEventListener('click', () => openNoteModal(el.dataset.notePerson, el.dataset.noteId));
+  });
+  listEl.querySelectorAll('[data-del-person]').forEach(el => {
+    el.addEventListener('click', () => deleteTask(el.dataset.delPerson, el.dataset.delId));
+  });
+}
+
+function toggleTask(person, taskId, el) {
+  const today = todayKey();
+  const task = cache.tasks[person]?.[taskId];
+  if (!task) return;
+  const newDone = !task.done;
+  update(ref(db, `tasks/${person}/${today}/${taskId}`), { done: newDone });
+
+  el.classList.add('pop');
+  setTimeout(() => el.classList.remove('pop'), 300);
+
+  if (newDone) {
+    showToast('✅ ' + task.label.slice(0, 28) + ' done!');
+    // Check if all tasks complete
+    const all = getTaskList(person);
+    const willAllBeDone = all.filter(t => t.id !== taskId || newDone).every(t => t.id === taskId ? newDone : t.done);
+    if (willAllBeDone) setTimeout(() => { confetti(); showToast('🎉 All tasks complete!'); }, 300);
+  }
+}
+window.toggleTask = toggleTask;
+
+function addTask(person) {
+  const input = document.getElementById(person + '-task-input');
+  const label = input.value.trim();
+  if (!label) return;
+  const today = todayKey();
+  const existing = Object.keys(cache.tasks[person] || {}).length;
+  const newRef = push(ref(db, `tasks/${person}/${today}`));
+  set(newRef, { label, done: false, note: '', order: existing + 10 });
+  input.value = '';
+  showToast('Task added!');
+}
+window.addTask = addTask;
+
+function deleteTask(person, taskId) {
+  const today = todayKey();
+  remove(ref(db, `tasks/${person}/${today}/${taskId}`));
+}
+window.deleteTask = deleteTask;
+
+// ============================================================
+//  NOTE MODAL
+// ============================================================
+let modalCtx = null;
+
+function openNoteModal(person, taskId) {
+  const task = cache.tasks[person]?.[taskId];
+  if (!task) return;
+  modalCtx = { person, taskId };
+  document.getElementById('modal-title').textContent = '📝 Note for: ' + task.label;
+  document.getElementById('modal-note-input').value = task.note || '';
+  document.getElementById('note-modal').classList.add('open');
+}
+window.openNoteModal = openNoteModal;
+
+function closeModal() {
+  document.getElementById('note-modal').classList.remove('open');
+  modalCtx = null;
+}
+window.closeModal = closeModal;
+
+function saveTaskNote() {
+  if (!modalCtx) return;
+  const { person, taskId } = modalCtx;
+  const note = document.getElementById('modal-note-input').value.trim();
+  const today = todayKey();
+  update(ref(db, `tasks/${person}/${today}/${taskId}`), { note });
+  closeModal();
+  showToast('Note saved 💕');
+}
+window.saveTaskNote = saveTaskNote;
+
+document.getElementById('note-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('note-modal')) closeModal();
+});
+
+// ============================================================
+//  CALORIES
+// ============================================================
+function renderCalories() {
+  const entries = Object.values(cache.calories || {});
+  const p1Total = entries.filter(e => e.user === 'p1').reduce((s, e) => s + (e.cals||0), 0);
+  const p2Total = entries.filter(e => e.user === 'p2').reduce((s, e) => s + (e.cals||0), 0);
+
+  document.getElementById('cal-combined-total').textContent = p1Total + p2Total;
+  document.getElementById('p1-cal-num').textContent = p1Total;
+  document.getElementById('p2-cal-num').textContent = p2Total;
+  document.getElementById('p1-cal-bar').style.width = Math.min(p1Total / CALORIE_GOAL * 100, 100) + '%';
+  document.getElementById('p2-cal-bar').style.width = Math.min(p2Total / CALORIE_GOAL * 100, 100) + '%';
+
+  const listEl = document.getElementById('food-log-list');
+  if (entries.length === 0) {
+    listEl.innerHTML = '<div class="empty-state"><div class="empty-icon">🥑</div>Nothing logged yet!</div>';
+    return;
+  }
+  listEl.innerHTML = '';
+  // Sort by time descending
+  const sorted = Object.entries(cache.calories || {}).sort((a, b) => (b[1].time||0) - (a[1].time||0));
+  sorted.forEach(([id, e]) => {
+    const div = document.createElement('div');
+    div.className = 'food-item';
+    div.innerHTML = `
+      <div class="food-name">${escHtml(e.name)}</div>
+      <div class="food-user-tag">${escHtml(PARTNER_NAMES[e.user] || e.user)}</div>
+      <div class="food-cals">${e.cals} kcal</div>
+      <button class="food-delete" data-food-id="${id}">✕</button>
+    `;
+    listEl.appendChild(div);
+  });
+  listEl.querySelectorAll('.food-delete').forEach(el => {
+    el.addEventListener('click', () => deleteFood(el.dataset.foodId));
+  });
+}
+
+function addFood() {
+  const name = document.getElementById('food-name-input').value.trim();
+  const cals = parseInt(document.getElementById('food-cal-input').value);
+  const user = document.getElementById('food-user-select').value;
+  if (!name || isNaN(cals) || cals < 0) { showToast('Please enter food name & calories'); return; }
+  const today = todayKey();
+  const newRef = push(ref(db, `calories/${today}/entries`));
+  set(newRef, { name, cals, user, time: Date.now() });
+  document.getElementById('food-name-input').value = '';
+  document.getElementById('food-cal-input').value = '';
+  showToast('🍽️ Logged ' + cals + ' kcal for ' + PARTNER_NAMES[user]);
+}
+window.addFood = addFood;
+
+function deleteFood(id) {
+  const today = todayKey();
+  remove(ref(db, `calories/${today}/entries/${id}`));
+}
+
+function clearTodayFood() {
+  if (!confirm('Clear all food entries for today?')) return;
+  const today = todayKey();
+  remove(ref(db, `calories/${today}/entries`));
+}
+window.clearTodayFood = clearTodayFood;
+
+// ============================================================
+//  PROGRESS LOGS
+// ============================================================
+function renderLogs() {
+  const today = todayKey();
+  const allLogs = Object.entries(cache.logs || {})
+    .map(([id, l]) => ({ id, ...l }))
+    .sort((a, b) => (b.time||0) - (a.time||0));
+
+  // Dashboard: today's last 3
+  const todayLogs = allLogs.filter(l => l.date === today).slice(0, 3);
+  const dashEl = document.getElementById('dash-recent-logs');
+  if (dashEl) {
+    dashEl.innerHTML = todayLogs.length
+      ? todayLogs.map(l => logHtml(l, true)).join('')
+      : '<div class="empty-state"><div class="empty-icon">🌱</div>No notes yet today</div>';
+  }
+
+  // Full list
+  const listEl = document.getElementById('log-list');
+  if (!listEl) return;
+  listEl.innerHTML = allLogs.length
+    ? allLogs.map(l => logHtml(l, false)).join('')
+    : '<div class="empty-state"><div class="empty-icon">📖</div>Your story starts here!</div>';
+
+  listEl.querySelectorAll('.log-delete').forEach(el => {
+    el.addEventListener('click', () => deleteLog(el.dataset.logId));
+  });
+}
+
+function logHtml(l, compact) {
+  const d = new Date(l.time || Date.now());
+  const timeStr = d.toLocaleDateString('en-GB', { day:'numeric', month:'short' })
+    + ' ' + d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+  return `
+    <div class="log-entry">
+      <div class="log-entry-header">
+        <span class="log-user-tag">${escHtml(PARTNER_NAMES[l.user] || l.user)}</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="log-meta">${timeStr}</span>
+          ${!compact ? `<button class="log-delete" data-log-id="${l.id}">✕</button>` : ''}
+        </div>
+      </div>
+      <div class="log-text">${escHtml(l.text)}</div>
+    </div>`;
+}
+
+function addLog() {
+  const text = document.getElementById('log-text-input').value.trim();
+  const user = document.getElementById('log-user-select').value;
+  if (!text) return;
+  const newRef = push(ref(db, 'logs'));
+  set(newRef, { text, user, date: todayKey(), time: Date.now() });
+  document.getElementById('log-text-input').value = '';
+  showToast('Note saved 💕');
+}
+window.addLog = addLog;
+
+function deleteLog(id) {
+  remove(ref(db, `logs/${id}`));
+}
+
+function clearOldLogs() {
+  const today = todayKey();
+  if (!confirm('Remove all notes from before today?')) return;
+  Object.entries(cache.logs || {}).forEach(([id, l]) => {
+    if (l.date !== today) remove(ref(db, `logs/${id}`));
+  });
+}
+window.clearOldLogs = clearOldLogs;
+
+// ============================================================
+//  DASHBOARD
+// ============================================================
+function renderDashboard() {
+  const p1Tasks = getTaskList('p1');
+  const p2Tasks = getTaskList('p2');
+  const p1Done = p1Tasks.filter(t => t.done).length;
+  const p2Done = p2Tasks.filter(t => t.done).length;
+  const totalAll = p1Tasks.length + p2Tasks.length;
+  const totalDone = p1Done + p2Done;
+  const pct = totalAll ? Math.round(totalDone / totalAll * 100) : 0;
+
+  document.getElementById('dash-tasks-done').textContent = totalDone;
+  document.getElementById('dash-tasks-total').textContent = 'of ' + totalAll + ' tasks';
+  document.getElementById('dash-p1-tasks').textContent = p1Done + '/' + p1Tasks.length + ' tasks done';
+  document.getElementById('dash-p2-tasks').textContent = p2Done + '/' + p2Tasks.length + ' tasks done';
+  document.getElementById('dash-prog-bar').style.width = pct + '%';
+  document.getElementById('dash-prog-label').textContent = pct + '%';
+
+  const entries = Object.values(cache.calories || {});
+  const p1Cals = entries.filter(e => e.user === 'p1').reduce((s, e) => s + (e.cals||0), 0);
+  const p2Cals = entries.filter(e => e.user === 'p2').reduce((s, e) => s + (e.cals||0), 0);
+  document.getElementById('dash-cals-total').textContent = p1Cals + p2Cals;
+  document.getElementById('dash-p1-cals').textContent = p1Cals + ' kcal logged';
+  document.getElementById('dash-p2-cals').textContent = p2Cals + ' kcal logged';
+
+  renderLogs();
+}
+
+// ============================================================
+//  KEYBOARD SHORTCUTS
+// ============================================================
+document.getElementById('p1-task-input').addEventListener('keydown', e => { if (e.key === 'Enter') addTask('p1'); });
+document.getElementById('p2-task-input').addEventListener('keydown', e => { if (e.key === 'Enter') addTask('p2'); });
+document.getElementById('food-cal-input').addEventListener('keydown', e => { if (e.key === 'Enter') addFood(); });
+
+</script>
+</body>
+</html>
