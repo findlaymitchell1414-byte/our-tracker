@@ -1,8 +1,4 @@
-// ============================================================
-//  🔧 YOUR PERSONAL CONFIG — never share this file
-//  This file is intentionally NOT committed to GitHub.
-//  Keep it locally and load it alongside index.html.
-// ============================================================
+
 
 const CONFIG = {
 
