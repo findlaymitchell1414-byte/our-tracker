@@ -1,8 +1,8 @@
 
 const CONFIG = {
  
-  // 🔧 Shared password to access the app
-  password: 'finnybean!',
+  // Password is no longer stored here — it lives as a SHA-256 hash in Firebase
+  // at /config/passwordHash. See README or setup instructions to change it.
  
   // 🔧 Your names as they appear in the app
   names: {
@@ -28,3 +28,4 @@ const CONFIG = {
   }
  
 };
+ 
