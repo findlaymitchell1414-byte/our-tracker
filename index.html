@@ -6,13 +6,7 @@
 <title>Our Daily Tracker 💕</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#fdf6f0;--bg2:#fef0ea;--card:#fff;--card2:#fff8f5;
-  --accent1:#e8849a;--accent2:#c4607a;--accent3:#f5b8c4;--accent4:#fce4ec;
-  --text:#3a2a30;--text2:#7a5a64;--text3:#b08a94;--border:#f0d0d8;
-  --shadow:rgba(200,100,120,0.12);--gradient:linear-gradient(135deg,#f9c6d0 0%,#e8849a 100%);
-  --tag-bg:#fce4ec;
-}
+:root{--bg:#fdf6f0;--bg2:#fef0ea;--card:#fff;--card2:#fff8f5;--accent1:#e8849a;--accent2:#c4607a;--accent3:#f5b8c4;--accent4:#fce4ec;--text:#3a2a30;--text2:#7a5a64;--text3:#b08a94;--border:#f0d0d8;--shadow:rgba(200,100,120,0.12);--gradient:linear-gradient(135deg,#f9c6d0 0%,#e8849a 100%);--tag-bg:#fce4ec;}
 [data-theme="teal"]{--bg:#f0faf8;--bg2:#e6f7f4;--card:#fff;--card2:#f5fdfb;--accent1:#2bada0;--accent2:#1d8a7e;--accent3:#7dd4cd;--accent4:#d0f0ec;--text:#1a3330;--text2:#3a6660;--text3:#6a9c96;--border:#b8e4e0;--shadow:rgba(43,173,160,0.12);--gradient:linear-gradient(135deg,#9ee5df 0%,#2bada0 100%);--tag-bg:#d0f0ec;}
 [data-theme="dark"]{--bg:#1a1520;--bg2:#211a28;--card:#2a2233;--card2:#241e2e;--accent1:#b57bee;--accent2:#9550d4;--accent3:#d4a8f5;--accent4:#3a2850;--text:#f0e8ff;--text2:#c0a8e0;--text3:#8870a8;--border:#3d2e55;--shadow:rgba(181,123,238,0.15);--gradient:linear-gradient(135deg,#7c4dbf 0%,#b57bee 100%);--tag-bg:#3a2850;}
 [data-theme="warm"]{--bg:#fdf8f0;--bg2:#faf0e0;--card:#fff;--card2:#fffbf5;--accent1:#d4891a;--accent2:#b06a05;--accent3:#f0b860;--accent4:#fde8c0;--text:#2e2010;--text2:#6e5030;--text3:#a08060;--border:#e8d0a0;--shadow:rgba(212,137,26,0.12);--gradient:linear-gradient(135deg,#f5cc80 0%,#d4891a 100%);--tag-bg:#fde8c0;}
@@ -39,8 +33,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 /* Sync */
 .sync-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px;background:#aaa;transition:background 0.3s;}
-.sync-dot.live{background:#4caf50;}
-.sync-dot.offline{background:#e84949;}
+.sync-dot.live{background:#4caf50;} .sync-dot.offline{background:#e84949;}
 .sync-label{font-size:12px;color:var(--text3);}
 
 #app{display:none;}
@@ -49,11 +42,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .header-right{display:flex;align-items:center;gap:8px;}
 .theme-btn{background:var(--tag-bg);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);transition:all 0.2s;font-family:'DM Sans',sans-serif;}
 .theme-btn:hover{background:var(--accent4);color:var(--accent1);}
-.date-badge{background:var(--accent4);color:var(--accent2);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:500;}
+.date-badge{background:var(--accent4);color:var(--accent2);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.2s;}
+.date-badge:hover{background:var(--accent1);color:white;}
 
 .nav-tabs{display:flex;background:var(--card);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
 .nav-tabs::-webkit-scrollbar{display:none;}
-.nav-tab{flex:1;min-width:70px;padding:13px 12px;text-align:center;cursor:pointer;font-size:12px;font-weight:500;color:var(--text3);border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap;font-family:'DM Sans',sans-serif;background:none;border-top:none;border-left:none;border-right:none;}
+.nav-tab{flex:1;min-width:60px;padding:12px 10px;text-align:center;cursor:pointer;font-size:11px;font-weight:500;color:var(--text3);border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap;font-family:'DM Sans',sans-serif;background:none;border-top:none;border-left:none;border-right:none;}
 .nav-tab.active{color:var(--accent1);border-bottom-color:var(--accent1);}
 .nav-tab:hover{color:var(--accent2);background:var(--bg2);}
 
@@ -67,6 +61,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .card-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--text);}
 .card-body{padding:14px 18px;}
 
+/* Encouragement banner */
+#encourage-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:800;padding:14px 20px;background:var(--gradient);color:white;text-align:center;font-size:14px;font-weight:500;animation:slideDown 0.4s ease;box-shadow:0 4px 16px rgba(0,0,0,0.15);}
+@keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+#encourage-banner .banner-close{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;color:white;font-size:18px;cursor:pointer;opacity:0.8;}
+#encourage-banner .banner-close:hover{opacity:1;}
+
+/* Streak widget */
+.streak-widget{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--gradient);border-radius:16px;margin-bottom:14px;color:white;}
+.streak-num{font-family:'Playfair Display',serif;font-size:42px;line-height:1;}
+.streak-info-label{font-size:13px;opacity:0.9;font-weight:500;}
+.streak-info-sub{font-size:11px;opacity:0.75;margin-top:2px;}
+
+/* Weekly summary */
+.weekly-card{border-left:4px solid var(--accent1);}
+.weekly-stat-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;}
+.weekly-stat{flex:1;min-width:80px;text-align:center;padding:10px 8px;background:var(--bg2);border-radius:12px;}
+.weekly-stat-val{font-family:'Playfair Display',serif;font-size:22px;color:var(--accent1);}
+.weekly-stat-lbl{font-size:10px;color:var(--text3);margin-top:2px;}
+
 /* Tasks */
 .task-item{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);}
 .task-item:last-child{border-bottom:none;}
@@ -77,13 +90,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .task-label{flex:1;font-size:14px;color:var(--text);line-height:1.4;}
 .task-recur-badge{font-size:10px;color:var(--text3);background:var(--bg2);border-radius:5px;padding:2px 6px;white-space:nowrap;}
 .task-actions{display:flex;gap:4px;align-items:center;}
-.task-note-btn{background:var(--tag-bg);border:none;border-radius:8px;padding:4px 9px;font-size:11px;cursor:pointer;color:var(--text2);transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.task-note-btn{background:var(--tag-bg);border:none;border-radius:8px;padding:4px 9px;font-size:11px;cursor:pointer;color:var(--text2);transition:all 0.2s;font-family:'DM Sans',sans-serif;}
 .task-note-btn:hover{background:var(--accent4);color:var(--accent1);}
 .task-delete{background:none;border:none;cursor:pointer;color:var(--text3);font-size:15px;padding:3px;transition:color 0.2s;}
 .task-delete:hover{color:#e84949;}
 .task-note{font-size:11px;color:var(--text3);margin-top:3px;padding:5px 8px;background:var(--bg2);border-radius:7px;font-style:italic;}
 
-/* Add task row */
 .add-task-form{margin-top:12px;border:1.5px solid var(--border);border-radius:14px;padding:12px;background:var(--bg2);}
 .add-task-row1{display:flex;gap:8px;margin-bottom:8px;}
 .add-task-row2{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
@@ -91,9 +103,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .add-input:focus{border-color:var(--accent1);}
 .add-btn{padding:10px 16px;background:var(--accent1);color:white;border:none;border-radius:12px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
 .add-btn:hover{background:var(--accent2);transform:translateY(-1px);}
-.recur-select{padding:8px 10px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:12px;background:var(--card);color:var(--text);outline:none;cursor:pointer;}
-.recur-select:focus{border-color:var(--accent1);}
-.interval-input{width:60px;padding:8px 10px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:12px;background:var(--card);color:var(--text);outline:none;}
+.recur-select,.interval-input{padding:8px 10px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:12px;background:var(--card);color:var(--text);outline:none;}
+.recur-select:focus,.interval-input:focus{border-color:var(--accent1);}
+.interval-input{width:60px;}
 .interval-label{font-size:12px;color:var(--text3);}
 
 .progress-wrap{margin:10px 0;}
@@ -112,7 +124,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .water-glass.filled .fill{height:100%;}
 .water-glass .drop{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;z-index:1;opacity:0;transition:opacity 0.2s;}
 .water-glass.filled .drop{opacity:1;}
-.water-count{font-size:11px;color:var(--accent1);font-weight:600;margin-top:7px;}
 
 /* Calories */
 .calorie-total{text-align:center;padding:18px;background:var(--gradient);border-radius:16px;margin-bottom:14px;color:white;}
@@ -129,10 +140,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .goal-bar-item{flex:1;}
 .goal-bar-name{font-size:12px;color:var(--text2);margin-bottom:3px;font-weight:500;}
 .goal-bar-sub{font-size:11px;color:var(--text3);margin-bottom:4px;}
-.user-select{padding:10px 13px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg2);color:var(--text);outline:none;cursor:pointer;transition:border-color 0.2s;}
+.user-select{padding:10px 13px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--bg2);color:var(--text);outline:none;cursor:pointer;}
 .user-select:focus{border-color:var(--accent1);}
-
-/* Food search */
 .food-search-wrap{position:relative;margin-bottom:8px;}
 .food-search-input{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--bg2);color:var(--text);outline:none;transition:border-color 0.2s;}
 .food-search-input:focus{border-color:var(--accent1);background:var(--card);}
@@ -169,6 +178,60 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .dash-stat-label{font-size:11px;color:var(--text3);margin-top:3px;}
 .dash-stat-sub{font-size:13px;color:var(--text2);font-weight:500;margin-top:2px;}
 
+/* Encouragement tab */
+.encourage-form{display:flex;flex-direction:column;gap:10px;}
+.encourage-textarea{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--bg2);color:var(--text);outline:none;resize:none;height:80px;transition:border-color 0.2s;}
+.encourage-textarea:focus{border-color:var(--accent1);background:var(--card);}
+.msg-item{padding:12px;background:var(--bg2);border-radius:12px;margin-bottom:8px;border-left:3px solid var(--accent1);display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.msg-text{font-size:13px;color:var(--text);flex:1;}
+.msg-meta{font-size:11px;color:var(--text3);margin-top:3px;}
+.msg-delete{background:none;border:none;cursor:pointer;color:var(--text3);font-size:13px;flex-shrink:0;}
+.msg-delete:hover{color:#e84949;}
+.msg-unread-badge{display:inline-block;background:var(--accent1);color:white;border-radius:99px;font-size:10px;padding:2px 7px;margin-left:6px;font-weight:600;}
+
+/* ── HISTORY / CALENDAR ── */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.cal-nav-btn{background:var(--tag-bg);border:1px solid var(--border);border-radius:10px;padding:7px 14px;font-size:13px;cursor:pointer;color:var(--text2);font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.cal-nav-btn:hover{background:var(--accent4);color:var(--accent1);}
+.cal-month-label{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;}
+.cal-dow{text-align:center;font-size:10px;color:var(--text3);font-weight:600;padding:4px 0;}
+.cal-day{aspect-ratio:1;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;border:2px solid transparent;position:relative;}
+.cal-day.empty{cursor:default;}
+.cal-day.today{border-color:var(--accent1);}
+.cal-day.future{color:var(--text3);cursor:default;opacity:0.4;}
+.cal-day.score-green{background:#d4edda;color:#155724;}
+.cal-day.score-yellow{background:#fff3cd;color:#856404;}
+.cal-day.score-red{background:#f8d7da;color:#721c24;}
+.cal-day.score-grey{background:var(--bg2);color:var(--text3);}
+[data-theme="dark"] .cal-day.score-green{background:#1a3a25;color:#6fcf97;}
+[data-theme="dark"] .cal-day.score-yellow{background:#3a3010;color:#f2c94c;}
+[data-theme="dark"] .cal-day.score-red{background:#3a1515;color:#eb5757;}
+[data-theme="dark"] .cal-day.score-grey{background:var(--bg2);color:var(--text3);}
+.cal-day:hover:not(.empty):not(.future){transform:scale(1.08);z-index:1;}
+.cal-legend{display:flex;gap:12px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;}
+.cal-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
+.cal-legend-dot{width:12px;height:12px;border-radius:3px;}
+
+/* Day detail panel */
+.day-detail{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:16px;margin-bottom:14px;animation:fadeIn 0.25s ease;}
+.day-detail-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--text);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
+.day-detail-close{background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;}
+.day-detail-section{margin-bottom:10px;}
+.day-detail-label{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;}
+.day-detail-pill{display:inline-flex;align-items:center;gap:4px;background:var(--bg2);border-radius:8px;padding:4px 9px;font-size:12px;color:var(--text);margin:2px;}
+.day-detail-pill.done{background:var(--accent4);color:var(--accent2);}
+.score-ring{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;margin-bottom:10px;}
+.score-ring.green{background:#d4edda;color:#155724;}
+.score-ring.yellow{background:#fff3cd;color:#856404;}
+.score-ring.red{background:#f8d7da;color:#721c24;}
+.score-ring.grey{background:var(--bg2);color:var(--text3);}
+[data-theme="dark"] .score-ring.green{background:#1a3a25;color:#6fcf97;}
+[data-theme="dark"] .score-ring.yellow{background:#3a3010;color:#f2c94c;}
+[data-theme="dark"] .score-ring.red{background:#3a1515;color:#eb5757;}
+.score-ring-pct{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;}
+.score-ring-label{font-size:12px;}
+
 /* Modals */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s;}
 .modal-overlay.open{opacity:1;pointer-events:all;}
@@ -176,43 +239,36 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .modal-overlay.open .modal{transform:translateY(0);}
 .modal h3{font-family:'Playfair Display',serif;font-size:19px;margin-bottom:14px;color:var(--text);}
 .modal-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end;}
-.btn-secondary{padding:9px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--text2);transition:all 0.2s;}
+.btn-secondary{padding:9px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--text2);}
 .btn-secondary:hover{background:var(--accent4);}
-.btn-primary{padding:9px 16px;background:var(--accent1);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:white;font-weight:500;transition:all 0.2s;}
+.btn-primary{padding:9px 16px;background:var(--accent1);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:white;font-weight:500;}
 .btn-primary:hover{background:var(--accent2);}
-.btn-danger{padding:9px 16px;background:#e84949;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:white;font-weight:500;transition:all 0.2s;}
-.btn-danger:hover{background:#c43030;}
 .modal-field{margin-bottom:12px;}
 .modal-field label{display:block;font-size:12px;color:var(--text3);margin-bottom:5px;font-weight:500;}
 
 .empty-state{text-align:center;padding:28px 16px;color:var(--text3);font-size:13px;}
 .empty-state .empty-icon{font-size:32px;margin-bottom:7px;}
-
 #loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:900;gap:12px;}
 #loading-overlay.hidden{display:none;}
 .spinner{width:36px;height:36px;border:3px solid var(--accent4);border-top-color:var(--accent1);border-radius:50%;animation:spin 0.8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:14px;color:var(--text3);}
-
 .confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
 .confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;animation:confettiFall 1.5s ease-in forwards;}
 @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:11px 22px;border-radius:99px;font-size:13px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;}
-
 @keyframes checkPop{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
 .task-check.pop{animation:checkPop 0.25s ease;}
-
-@media(max-width:580px){
-  .main-content{padding:12px;}
-  .calorie-form{flex-direction:column;}
-  .cal-input{width:100%!important;}
-  .add-task-row2{flex-direction:column;align-items:stretch;}
-}
+@media(max-width:580px){.main-content{padding:12px;}.calorie-form{flex-direction:column;}.cal-input{width:100%!important;}.add-task-row2{flex-direction:column;align-items:stretch;}}
 </style>
 </head>
 <body>
+
+<div id="encourage-banner">
+  <span id="encourage-banner-text"></span>
+  <button class="banner-close" onclick="dismissBanner()">✕</button>
+</div>
 
 <div id="lock-screen">
   <div class="lock-card">
@@ -237,7 +293,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <span class="sync-dot" id="sync-dot"></span>
       <span class="sync-label" id="sync-label">connecting</span>
       <button class="theme-btn" onclick="cycleTheme()">🎨</button>
-      <div class="date-badge" id="date-badge"></div>
+      <div class="date-badge" id="date-badge" onclick="showSection('history',document.querySelectorAll('.nav-tab')[4])"></div>
     </div>
   </header>
 
@@ -246,12 +302,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <button class="nav-tab" onclick="showSection('tasks',this)">✅ Tasks</button>
     <button class="nav-tab" onclick="showSection('calories',this)">🥗 Calories</button>
     <button class="nav-tab" onclick="showSection('logs',this)">📓 Logs</button>
+    <button class="nav-tab" onclick="showSection('messages',this)">💬 Messages</button>
+    <button class="nav-tab" onclick="showSection('history',this)">📅 History</button>
   </nav>
 
   <div class="main-content">
 
     <!-- DASHBOARD -->
     <div class="section active" id="section-dashboard">
+      <div id="streak-widget-wrap"></div>
+      <div id="weekly-summary-wrap"></div>
       <div class="dash-grid">
         <div class="dash-stat">
           <div class="dash-stat-num" id="dash-tasks-done">—</div>
@@ -305,44 +365,35 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
           <span id="p1-task-progress" style="font-size:12px;color:var(--text3);">0/0</span>
         </div>
         <div class="card-body">
-          <div class="progress-wrap">
-            <div class="progress-bar"><div class="progress-fill" id="p1-progress-bar" style="width:0%"></div></div>
-          </div>
+          <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" id="p1-progress-bar" style="width:0%"></div></div></div>
           <div id="p1-task-list"></div>
           <div class="add-task-form">
-            <div class="add-task-row1">
-              <input type="text" class="add-input" id="p1-task-input" placeholder="New task name…" />
-            </div>
+            <div class="add-task-row1"><input type="text" class="add-input" id="p1-task-input" placeholder="New task name…" /></div>
             <div class="add-task-row2">
               <select class="recur-select" id="p1-recur-type" onchange="toggleInterval('p1')">
                 <option value="daily">🔁 Daily</option>
                 <option value="interval">📅 Every N days</option>
                 <option value="once">1️⃣ One-off</option>
               </select>
-              <span id="p1-interval-wrap" style="display:none;display:flex;align-items:center;gap:6px;">
-                <input type="number" class="interval-input" id="p1-interval" value="2" min="2" max="365" />
+              <span id="p1-interval-wrap" style="display:none;align-items:center;gap:6px;">
+                <input type="number" class="interval-input" id="p1-interval" value="2" min="2" max="365"/>
                 <span class="interval-label">days</span>
               </span>
-              <button class="add-btn" onclick="addTask('p1')" style="margin-left:auto;">+ Add Task</button>
+              <button class="add-btn" onclick="addTask('p1')" style="margin-left:auto;">+ Add</button>
             </div>
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-header">
           <span class="card-title" id="p2-task-card-title">✅ Tasks</span>
           <span id="p2-task-progress" style="font-size:12px;color:var(--text3);">0/0</span>
         </div>
         <div class="card-body">
-          <div class="progress-wrap">
-            <div class="progress-bar"><div class="progress-fill" id="p2-progress-bar" style="width:0%"></div></div>
-          </div>
+          <div class="progress-wrap"><div class="progress-bar"><div class="progress-fill" id="p2-progress-bar" style="width:0%"></div></div></div>
           <div id="p2-task-list"></div>
           <div class="add-task-form">
-            <div class="add-task-row1">
-              <input type="text" class="add-input" id="p2-task-input" placeholder="New task name…" />
-            </div>
+            <div class="add-task-row1"><input type="text" class="add-input" id="p2-task-input" placeholder="New task name…" /></div>
             <div class="add-task-row2">
               <select class="recur-select" id="p2-recur-type" onchange="toggleInterval('p2')">
                 <option value="daily">🔁 Daily</option>
@@ -350,10 +401,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
                 <option value="once">1️⃣ One-off</option>
               </select>
               <span id="p2-interval-wrap" style="display:none;align-items:center;gap:6px;">
-                <input type="number" class="interval-input" id="p2-interval" value="2" min="2" max="365" />
+                <input type="number" class="interval-input" id="p2-interval" value="2" min="2" max="365"/>
                 <span class="interval-label">days</span>
               </span>
-              <button class="add-btn" onclick="addTask('p2')" style="margin-left:auto;">+ Add Task</button>
+              <button class="add-btn" onclick="addTask('p2')" style="margin-left:auto;">+ Add</button>
             </div>
           </div>
         </div>
@@ -384,27 +435,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
           </div>
         </div>
       </div>
-
-      <!-- Food search + log -->
       <div class="card">
         <div class="card-header"><span class="card-title">🍽️ Log Food</span></div>
         <div class="card-body">
-          <!-- Search -->
           <div class="food-search-wrap">
-            <input type="text" class="food-search-input" id="food-search" placeholder="🔍 Search food database…" autocomplete="off" />
+            <input type="text" class="food-search-input" id="food-search" placeholder="🔍 Search food database…" autocomplete="off"/>
             <div class="food-search-results" id="food-search-results"></div>
           </div>
-          <!-- Manual entry -->
           <div style="font-size:11px;color:var(--text3);margin-bottom:6px;">Or enter manually:</div>
           <div class="calorie-form">
-            <input type="text" class="add-input" id="food-name-input" placeholder="Food name…" />
-            <input type="number" class="add-input cal-input" id="food-cal-input" placeholder="kcal" min="0" />
+            <input type="text" class="add-input" id="food-name-input" placeholder="Food name…"/>
+            <input type="number" class="add-input cal-input" id="food-cal-input" placeholder="kcal" min="0"/>
             <select class="user-select" id="food-user-select"></select>
             <button class="add-btn" onclick="addFood()">+ Log</button>
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-header">
           <span class="card-title">📋 Today's Food Log</span>
@@ -441,6 +487,53 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       </div>
     </div>
 
+    <!-- MESSAGES -->
+    <div class="section" id="section-messages">
+      <div class="card">
+        <div class="card-header"><span class="card-title">💬 Send Encouragement</span></div>
+        <div class="card-body">
+          <div class="encourage-form">
+            <textarea class="encourage-textarea" id="msg-input" placeholder="Send a motivational nudge to your partner… 💕"></textarea>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <select class="user-select" id="msg-from-select"></select>
+              <button class="add-btn" onclick="sendMessage()">Send 💌</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">📬 Message History</span>
+          <button class="task-note-btn" onclick="clearOldMessages()" style="color:var(--text3);">Clear old</button>
+        </div>
+        <div class="card-body" id="msg-list">
+          <div class="empty-state"><div class="empty-icon">💌</div>No messages yet — send some love!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="section" id="section-history">
+      <div id="day-detail-wrap"></div>
+      <div class="card">
+        <div class="card-body">
+          <div class="cal-nav">
+            <button class="cal-nav-btn" onclick="calPrevMonth()">‹ Prev</button>
+            <div class="cal-month-label" id="cal-month-label"></div>
+            <button class="cal-nav-btn" onclick="calNextMonth()">Next ›</button>
+          </div>
+          <div class="cal-legend">
+            <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#d4edda;border:1px solid #c3e6cb;"></div>100% 🟢</div>
+            <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#fff3cd;border:1px solid #ffeeba;"></div>75–99% 🟡</div>
+            <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#f8d7da;border:1px solid #f5c6cb;"></div>&lt;75% 🔴</div>
+            <div class="cal-legend-item"><div class="cal-legend-dot" style="background:#eee;border:1px solid #ddd;"></div>No data</div>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+          <div style="font-size:11px;color:var(--text3);text-align:center;margin-top:4px;">Score = tasks + water + calorie goal combined</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -458,22 +551,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   </div>
 </div>
 
-<!-- Food confirm modal (populated by search) -->
+<!-- Food modal -->
 <div class="modal-overlay" id="food-modal">
   <div class="modal">
     <h3>Add to Food Log</h3>
-    <div class="modal-field">
-      <label>Food</label>
-      <input type="text" class="add-input" id="fm-name" style="width:100%" />
-    </div>
-    <div class="modal-field">
-      <label>Calories (kcal)</label>
-      <input type="number" class="add-input" id="fm-cals" style="width:100%" min="0" />
-    </div>
-    <div class="modal-field">
-      <label>For</label>
-      <select class="user-select" id="fm-user" style="width:100%"></select>
-    </div>
+    <div class="modal-field"><label>Food</label><input type="text" class="add-input" id="fm-name" style="width:100%"/></div>
+    <div class="modal-field"><label>Calories (kcal)</label><input type="number" class="add-input" id="fm-cals" style="width:100%" min="0"/></div>
+    <div class="modal-field"><label>For</label><select class="user-select" id="fm-user" style="width:100%"></select></div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeModal('food-modal')">Cancel</button>
       <button class="btn-primary" onclick="confirmAddFood()">Log It 🍽️</button>
@@ -483,479 +567,410 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 
 <script src="config.js"></script>
 <script type="module">
-import { initializeApp }                                    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, get, onValue, push, remove, update }
-                                                            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-import { getAuth, signInAnonymously, onAuthStateChanged }   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { initializeApp }                                   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase,ref,set,get,onValue,push,remove,update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth,signInAnonymously,onAuthStateChanged }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-if (typeof CONFIG === 'undefined') {
-  document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#c00">⚠️ config.js not found.</div>';
-  throw new Error('CONFIG not defined');
-}
+if(typeof CONFIG==='undefined'){document.body.innerHTML='<div style="padding:40px;font-family:sans-serif;color:#c00">⚠️ config.js not found.</div>';throw new Error('no CONFIG');}
 
 const CALORIE_GOALS  = CONFIG.calorieGoals;
 const PARTNER_NAMES  = CONFIG.names;
 const firebaseConfig = CONFIG.firebase;
 const WATER_GLASSES  = 8;
 
-// ── Default tasks (no water — that's the widget now) ──────────
-const DEFAULT_TASKS = [
-  { label: 'Track meals 🍽️',      recur: 'daily' },
-  { label: 'Exercise 💪',          recur: 'daily' },
-  { label: 'Take vitamins/meds 💊', recur: 'daily' },
+const DEFAULT_TASKS=[
+  {label:'Track meals 🍽️',recur:'daily'},
+  {label:'Exercise 💪',recur:'daily'},
+  {label:'Take vitamins/meds 💊',recur:'daily'},
 ];
 
-const fbApp = initializeApp(firebaseConfig);
-const db    = getDatabase(fbApp);
-const auth  = getAuth(fbApp);
+const fbApp=initializeApp(firebaseConfig);
+const db=getDatabase(fbApp);
+const auth=getAuth(fbApp);
 
-// ── Themes ────────────────────────────────────────────────────
-const THEMES      = ['','teal','dark','warm'];
-const THEME_NAMES = {'':'🌸 Rose','teal':'🌿 Teal','dark':'🌙 Dark','warm':'☀️ Warm'};
-let themeIndex = 0;
-function cycleTheme() {
-  themeIndex = (themeIndex+1)%THEMES.length;
-  document.body.setAttribute('data-theme',THEMES[themeIndex]);
-  localStorage.setItem('couple_theme',THEMES[themeIndex]);
-  showToast('Theme: '+THEME_NAMES[THEMES[themeIndex]]);
-}
-window.cycleTheme = cycleTheme;
+// ── Themes ──────────────────────────────────────────────────
+const THEMES=['','teal','dark','warm'];
+const THEME_NAMES={'':'🌸 Rose','teal':'🌿 Teal','dark':'🌙 Dark','warm':'☀️ Warm'};
+let themeIndex=0;
+function cycleTheme(){themeIndex=(themeIndex+1)%THEMES.length;document.body.setAttribute('data-theme',THEMES[themeIndex]);localStorage.setItem('couple_theme',THEMES[themeIndex]);showToast('Theme: '+THEME_NAMES[THEMES[themeIndex]]);}
+window.cycleTheme=cycleTheme;
 
-// ── Helpers ───────────────────────────────────────────────────
-function todayKey()  { return new Date().toISOString().slice(0,10); }
-function daysSinceEpoch(dateStr) {
-  return Math.floor(new Date(dateStr).getTime() / 86400000);
-}
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function showToast(msg) {
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2200);
-}
-function confetti() {
-  const wrap=document.createElement('div'); wrap.className='confetti-wrap'; document.body.appendChild(wrap);
-  const colors=['#e8849a','#f5b8c4','#fff','#fce4ec','#c4607a','#f9c6d0'];
-  for(let i=0;i<40;i++){
-    const p=document.createElement('div'); p.className='confetti-piece';
-    p.style.cssText=`left:${Math.random()*100}%;background:${colors[~~(Math.random()*colors.length)]};animation-delay:${Math.random()*0.6}s;animation-duration:${1.2+Math.random()*0.8}s;`;
-    wrap.appendChild(p);
-  }
-  setTimeout(()=>wrap.remove(),2500);
-}
-function setSyncStatus(live) {
-  document.getElementById('sync-dot').className='sync-dot '+(live?'live':'offline');
-  document.getElementById('sync-label').textContent=live?'live':'offline';
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-}
-window.closeModal = closeModal;
+// ── Helpers ──────────────────────────────────────────────────
+function todayKey(){return new Date().toISOString().slice(0,10);}
+function daysSinceEpoch(d){return Math.floor(new Date(d).getTime()/86400000);}
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function confetti(){const w=document.createElement('div');w.className='confetti-wrap';document.body.appendChild(w);const c=['#e8849a','#f5b8c4','#fff','#fce4ec','#c4607a','#f9c6d0'];for(let i=0;i<40;i++){const p=document.createElement('div');p.className='confetti-piece';p.style.cssText=`left:${Math.random()*100}%;background:${c[~~(Math.random()*c.length)]};animation-delay:${Math.random()*0.6}s;animation-duration:${1.2+Math.random()*0.8}s;`;w.appendChild(p);}setTimeout(()=>w.remove(),2500);}
+function setSyncStatus(live){document.getElementById('sync-dot').className='sync-dot '+(live?'live':'offline');document.getElementById('sync-label').textContent=live?'live':'offline';}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+window.closeModal=closeModal;
 
-// ── Names ─────────────────────────────────────────────────────
-function applyNames() {
-  document.getElementById('dash-p1-name').textContent = PARTNER_NAMES.p1;
-  document.getElementById('dash-p2-name').textContent = PARTNER_NAMES.p2;
-  document.getElementById('p1-task-card-title').textContent = '✅ '+PARTNER_NAMES.p1+'\u2019s Tasks';
-  document.getElementById('p2-task-card-title').textContent = '✅ '+PARTNER_NAMES.p2+'\u2019s Tasks';
-  document.getElementById('cal-p1-name').textContent = PARTNER_NAMES.p1;
-  document.getElementById('cal-p2-name').textContent = PARTNER_NAMES.p2;
-  document.getElementById('p1-goal-label').textContent = CALORIE_GOALS.p1;
-  document.getElementById('p2-goal-label').textContent = CALORIE_GOALS.p2;
-  ['food-user-select','log-user-select','fm-user'].forEach(id=>{
-    const el=document.getElementById(id); if(!el) return;
+function applyNames(){
+  document.getElementById('dash-p1-name').textContent=PARTNER_NAMES.p1;
+  document.getElementById('dash-p2-name').textContent=PARTNER_NAMES.p2;
+  document.getElementById('p1-task-card-title').textContent='✅ '+PARTNER_NAMES.p1+'\u2019s Tasks';
+  document.getElementById('p2-task-card-title').textContent='✅ '+PARTNER_NAMES.p2+'\u2019s Tasks';
+  document.getElementById('cal-p1-name').textContent=PARTNER_NAMES.p1;
+  document.getElementById('cal-p2-name').textContent=PARTNER_NAMES.p2;
+  document.getElementById('p1-goal-label').textContent=CALORIE_GOALS.p1;
+  document.getElementById('p2-goal-label').textContent=CALORIE_GOALS.p2;
+  ['food-user-select','log-user-select','fm-user','msg-from-select'].forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
     el.innerHTML=`<option value="p1">${escHtml(PARTNER_NAMES.p1)}</option><option value="p2">${escHtml(PARTNER_NAMES.p2)}</option>`;
   });
 }
 
-// ── Nav ───────────────────────────────────────────────────────
-function showSection(name,btn) {
+function showSection(name,btn){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('section-'+name).classList.add('active');
-  if(btn) btn.classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(name==='history')renderCalendar();
+  if(name==='messages')markMessagesRead();
 }
-window.showSection = showSection;
+window.showSection=showSection;
 
-// ── Password (SHA-256 from Firebase) ─────────────────────────
-async function sha256(str) {
-  const buf = await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-async function checkPassword() {
+// ── Password ────────────────────────────────────────────────
+async function sha256(str){const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+async function checkPassword(){
   const val=document.getElementById('pw-input').value;
   const input=document.getElementById('pw-input');
   const err=document.getElementById('pw-error');
   const btn=document.querySelector('.lock-btn');
-  if(!val) return;
-  btn.textContent='Checking…'; btn.disabled=true;
-  try {
-    const snap = await get(ref(db,'config/passwordHash'));
-    const storedHash = snap.val();
-    if(!storedHash) throw new Error('No hash in DB');
-    const typedHash = await sha256(val);
-    if(typedHash===storedHash) {
+  if(!val)return;btn.textContent='Checking…';btn.disabled=true;
+  try{
+    const snap=await get(ref(db,'config/passwordHash'));
+    const stored=snap.val();if(!stored)throw new Error('no hash');
+    const typed=await sha256(val);
+    if(typed===stored){
       document.getElementById('lock-screen').classList.add('fade-out');
       document.getElementById('loading-overlay').classList.remove('hidden');
       setTimeout(()=>document.getElementById('lock-screen').style.display='none',650);
       initApp();
-    } else {
-      input.classList.add('error');
-      err.textContent='Wrong password — try again 🔒';
-      setTimeout(()=>input.classList.remove('error'),500);
-      input.value=''; btn.textContent='Enter ✨'; btn.disabled=false;
-    }
-  } catch(e) {
-    console.error(e);
-    err.textContent='Connection error — try again';
-    btn.textContent='Enter ✨'; btn.disabled=false;
-  }
+    }else{input.classList.add('error');err.textContent='Wrong password — try again 🔒';setTimeout(()=>input.classList.remove('error'),500);input.value='';btn.textContent='Enter ✨';btn.disabled=false;}
+  }catch(e){console.error(e);err.textContent='Connection error — try again';btn.textContent='Enter ✨';btn.disabled=false;}
 }
-window.checkPassword = checkPassword;
+window.checkPassword=checkPassword;
 document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkPassword();});
 
-// ── Cache ─────────────────────────────────────────────────────
-// taskDefs: permanent task definitions  { id: {label, recur, interval, createdDate} }
-// taskState: daily done flags           { id: true/false }
-let cache = {
-  taskDefs:  {p1:{},p2:{}},
-  taskState: {p1:{},p2:{}},
-  water:     {p1:{},p2:{}},
-  calories:  {},
-  logs:      {}
-};
+// ── Cache ───────────────────────────────────────────────────
+let cache={taskDefs:{p1:{},p2:{}},taskState:{p1:{},p2:{}},water:{p1:{},p2:{}},calories:{},logs:{},history:{},messages:{}};
 let listenersAttached=false;
 
-function initApp() {
+function initApp(){
   const saved=localStorage.getItem('couple_theme')||'';
-  themeIndex=THEMES.indexOf(saved); if(themeIndex<0) themeIndex=0;
+  themeIndex=THEMES.indexOf(saved);if(themeIndex<0)themeIndex=0;
   document.body.setAttribute('data-theme',THEMES[themeIndex]);
-  document.getElementById('date-badge').textContent=
-    new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'});
-  applyNames();
-  initFoodSearch();
-  signInAnonymously(auth).catch(err=>{console.error('Auth:',err);setSyncStatus(false);});
-  onAuthStateChanged(auth,user=>{if(user) attachListeners();});
+  document.getElementById('date-badge').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  applyNames();initFoodSearch();
+  signInAnonymously(auth).catch(e=>{console.error('Auth:',e);setSyncStatus(false);});
+  onAuthStateChanged(auth,user=>{if(user)attachListeners();});
 }
 
-function attachListeners() {
-  if(listenersAttached) return;
-  listenersAttached=true;
+function attachListeners(){
+  if(listenersAttached)return;listenersAttached=true;
   const today=todayKey();
 
   ['p1','p2'].forEach(person=>{
-    // Task definitions — permanent
     onValue(ref(db,`taskDefs/${person}`),snap=>{
       setSyncStatus(true);
       const data=snap.val()||{};
-      if(Object.keys(data).length===0) { seedDefaultTasks(person); return; }
-      cache.taskDefs[person]=data;
-      renderTasks(person);
-      renderDashboard();
+      if(Object.keys(data).length===0){seedDefaultTasks(person);return;}
+      cache.taskDefs[person]=data;renderTasks(person);renderDashboard();
       document.getElementById('loading-overlay').classList.add('hidden');
       document.getElementById('app').style.display='block';
     },err=>{setSyncStatus(false);console.error(err);});
 
-    // Task state — daily
     onValue(ref(db,`taskState/${person}/${today}`),snap=>{
-      cache.taskState[person]=snap.val()||{};
-      renderTasks(person);
-      renderDashboard();
+      cache.taskState[person]=snap.val()||{};renderTasks(person);renderDashboard();
     });
-
-    // Water
     onValue(ref(db,`water/${person}/${today}`),snap=>{
-      cache.water[person]=snap.val()||{};
-      renderWaterWidget(person);
+      cache.water[person]=snap.val()||{};renderWaterWidget(person);
     });
   });
 
-  onValue(ref(db,`calories/${today}/entries`),snap=>{
-    cache.calories=snap.val()||{};
-    renderCalories(); renderDashboard();
+  onValue(ref(db,`calories/${today}/entries`),snap=>{cache.calories=snap.val()||{};renderCalories();renderDashboard();});
+  onValue(ref(db,'logs'),snap=>{cache.logs=snap.val()||{};renderLogs();});
+  onValue(ref(db,'history'),snap=>{cache.history=snap.val()||{};renderDashboard();});
+  onValue(ref(db,'messages'),snap=>{
+    cache.messages=snap.val()||{};
+    renderMessages();
+    checkForUnreadBanner();
   });
 
-  onValue(ref(db,'logs'),snap=>{
-    cache.logs=snap.val()||{};
-    renderLogs();
-  });
+  // Save daily snapshot when day changes
+  saveDailySnapshot();
 }
 
-function seedDefaultTasks(person) {
-  const updates={};
-  DEFAULT_TASKS.forEach((t,i)=>{
-    updates[`default_${i}`]={ label:t.label, recur:'daily', interval:1, createdDate:todayKey() };
-  });
-  set(ref(db,`taskDefs/${person}`),updates);
+function seedDefaultTasks(person){
+  const u={};DEFAULT_TASKS.forEach((t,i)=>{u[`default_${i}`]={label:t.label,recur:'daily',interval:1,createdDate:todayKey()};});
+  set(ref(db,`taskDefs/${person}`),u);
 }
 
-// ── Task recurrence logic ─────────────────────────────────────
-// Returns true if a task should appear today given its definition
-function taskActiveToday(def) {
-  const today=todayKey();
-  if(def.recur==='once')     return true; // shown until completed
-  if(def.recur==='daily')    return true;
-  if(def.recur==='interval') {
-    const created=daysSinceEpoch(def.createdDate||today);
-    const now=daysSinceEpoch(today);
-    const interval=def.interval||2;
-    return (now-created) % interval === 0;
+// ── Daily snapshot ──────────────────────────────────────────
+// Called on load; saves yesterday's data if not already saved
+async function saveDailySnapshot(){
+  const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+  const yKey=yesterday.toISOString().slice(0,10);
+  const snap=await get(ref(db,`history/${yKey}`));
+  if(snap.exists())return; // already saved
+
+  // Fetch yesterday's data
+  const [p1StateSnap,p2StateSnap,waterP1Snap,waterP2Snap,calSnap]=await Promise.all([
+    get(ref(db,`taskState/p1/${yKey}`)),
+    get(ref(db,`taskState/p2/${yKey}`)),
+    get(ref(db,`water/p1/${yKey}`)),
+    get(ref(db,`water/p2/${yKey}`)),
+    get(ref(db,`calories/${yKey}/entries`)),
+  ]);
+
+  const p1Defs=cache.taskDefs.p1||{};
+  const p2Defs=cache.taskDefs.p2||{};
+  const p1State=p1StateSnap.val()||{};
+  const p2State=p2StateSnap.val()||{};
+  const waterP1=waterP1Snap.val()||{};
+  const waterP2=waterP2Snap.val()||{};
+  const calEntries=Object.values(calSnap.val()||{});
+
+  const score=computeScore({p1Defs,p2Defs,p1State,p2State,waterP1,waterP2,calEntries,date:yKey});
+  if(score.totalPossible>0){
+    set(ref(db,`history/${yKey}`),score);
   }
+}
+
+function computeScore({p1Defs,p2Defs,p1State,p2State,waterP1,waterP2,calEntries,date}){
+  // Tasks
+  const activeForDate=(defs,state,d)=>{
+    return Object.entries(defs).filter(([,def])=>{
+      if(def.recur==='daily')return true;
+      if(def.recur==='once')return true;
+      if(def.recur==='interval'){
+        const created=daysSinceEpoch(def.createdDate||d);
+        const now=daysSinceEpoch(d);
+        return(now-created)%( def.interval||2)===0;
+      }
+      return true;
+    }).map(([id,def])=>({id,...def,done:state[id]||false}));
+  };
+
+  const p1Tasks=activeForDate(p1Defs,p1State,date);
+  const p2Tasks=activeForDate(p2Defs,p2State,date);
+  const tasksDone=p1Tasks.filter(t=>t.done).length+p2Tasks.filter(t=>t.done).length;
+  const tasksTotal=p1Tasks.length+p2Tasks.length;
+
+  // Water (8 glasses each = 1 task equivalent each = 2 total)
+  const p1Water=Object.values(waterP1).filter(Boolean).length;
+  const p2Water=Object.values(waterP2).filter(Boolean).length;
+  const waterPoints=(p1Water/WATER_GLASSES)+(p2Water/WATER_GLASSES); // 0–2
+
+  // Calories (within 20% of goal = 1 point each)
+  const p1Cals=calEntries.filter(e=>e.user==='p1').reduce((s,e)=>s+(e.cals||0),0);
+  const p2Cals=calEntries.filter(e=>e.user==='p2').reduce((s,e)=>s+(e.cals||0),0);
+  const calPoints=(p1Cals>0&&p1Cals<=CALORIE_GOALS.p1*1.2&&p1Cals>=CALORIE_GOALS.p1*0.8?1:0)+
+                  (p2Cals>0&&p2Cals<=CALORIE_GOALS.p2*1.2&&p2Cals>=CALORIE_GOALS.p2*0.8?1:0);
+
+  const totalEarned=tasksDone+waterPoints+calPoints;
+  const totalPossible=tasksTotal+2+2; // tasks + 2 water + 2 cal
+
+  return{tasksDone,tasksTotal,p1Water,p2Water,p1Cals,p2Cals,totalEarned,totalPossible,
+    pct:totalPossible>0?Math.round(totalEarned/totalPossible*100):0};
+}
+
+// Score for today (live, from cache)
+function todayScore(){
+  return computeScore({
+    p1Defs:cache.taskDefs.p1,p2Defs:cache.taskDefs.p2,
+    p1State:cache.taskState.p1,p2State:cache.taskState.p2,
+    waterP1:cache.water.p1,waterP2:cache.water.p2,
+    calEntries:Object.values(cache.calories),
+    date:todayKey()
+  });
+}
+
+function scoreClass(pct){if(pct===null||pct===undefined)return 'grey';if(pct>=100)return 'green';if(pct>=75)return 'yellow';return 'red';}
+
+// ── Streaks ─────────────────────────────────────────────────
+function computeStreak(){
+  const hist=cache.history||{};
+  let streak=0;
+  const d=new Date();d.setDate(d.getDate()-1); // start from yesterday
+  while(true){
+    const key=d.toISOString().slice(0,10);
+    const h=hist[key];
+    if(!h||h.pct<100)break;
+    streak++;d.setDate(d.getDate()-1);
+    if(streak>365)break;
+  }
+  return streak;
+}
+
+// ── Task recurrence ─────────────────────────────────────────
+function taskActiveToday(def){
+  const today=todayKey();
+  if(def.recur==='daily')return true;
+  if(def.recur==='once')return true;
+  if(def.recur==='interval'){const c=daysSinceEpoch(def.createdDate||today);const n=daysSinceEpoch(today);return(n-c)%(def.interval||2)===0;}
   return true;
 }
+function recurLabel(def){if(def.recur==='daily')return '🔁 daily';if(def.recur==='once')return '1️⃣ once';if(def.recur==='interval')return `📅 every ${def.interval}d`;return '';}
 
-function recurLabel(def) {
-  if(def.recur==='daily')    return '🔁 daily';
-  if(def.recur==='once')     return '1️⃣ one-off';
-  if(def.recur==='interval') return `📅 every ${def.interval}d`;
-  return '';
-}
-
-// ── Tasks render ──────────────────────────────────────────────
-function getActiveTasks(person) {
-  const defs  = cache.taskDefs[person]||{};
-  const state = cache.taskState[person]||{};
-  return Object.entries(defs)
-    .filter(([,def])=>taskActiveToday(def))
-    .map(([id,def])=>({ id, ...def, done: state[id]||false }))
+// ── Tasks render ────────────────────────────────────────────
+function getActiveTasks(person){
+  return Object.entries(cache.taskDefs[person]||{})
+    .filter(([,d])=>taskActiveToday(d))
+    .map(([id,d])=>({id,...d,done:cache.taskState[person]?.[id]||false}))
     .sort((a,b)=>(a.createdDate||'').localeCompare(b.createdDate||''));
 }
 
-function renderTasks(person) {
+function renderTasks(person){
   const tasks=getActiveTasks(person);
   const done=tasks.filter(t=>t.done).length;
   const pct=tasks.length?Math.round(done/tasks.length*100):0;
   document.getElementById(person+'-progress-bar').style.width=pct+'%';
   document.getElementById(person+'-task-progress').textContent=done+'/'+tasks.length;
-
-  const listEl=document.getElementById(person+'-task-list');
-  listEl.innerHTML='';
-
-  if(tasks.length===0) {
-    listEl.innerHTML='<div class="empty-state"><div class="empty-icon">🌟</div>No tasks today</div>';
-  } else {
+  const listEl=document.getElementById(person+'-task-list');listEl.innerHTML='';
+  if(tasks.length===0){listEl.innerHTML='<div class="empty-state"><div class="empty-icon">🌟</div>No tasks today</div>';}
+  else{
     tasks.forEach(task=>{
-      const div=document.createElement('div');
-      div.className='task-item'+(task.done?' done':'');
+      const div=document.createElement('div');div.className='task-item'+(task.done?' done':'');
       div.innerHTML=`
         <div class="task-check ${task.done?'checked':''}" data-person="${person}" data-id="${task.id}"></div>
-        <div style="flex:1">
-          <div class="task-label">${escHtml(task.label)}</div>
-          ${task.note?`<div class="task-note">💬 ${escHtml(task.note)}</div>`:''}
-        </div>
+        <div style="flex:1"><div class="task-label">${escHtml(task.label)}</div>${task.note?`<div class="task-note">💬 ${escHtml(task.note)}</div>`:''}</div>
         <span class="task-recur-badge">${recurLabel(task)}</span>
         <div class="task-actions">
           <button class="task-note-btn" data-note-person="${person}" data-note-id="${task.id}">📝</button>
-          <button class="task-delete" data-del-person="${person}" data-del-id="${task.id}" title="Delete task">✕</button>
-        </div>
-      `;
+          <button class="task-delete" data-del-person="${person}" data-del-id="${task.id}">✕</button>
+        </div>`;
       listEl.appendChild(div);
     });
-    listEl.querySelectorAll('.task-check').forEach(el=>
-      el.addEventListener('click',()=>toggleTask(el.dataset.person,el.dataset.id,el)));
-    listEl.querySelectorAll('[data-note-person]').forEach(el=>
-      el.addEventListener('click',()=>openNoteModal(el.dataset.notePerson,el.dataset.noteId)));
-    listEl.querySelectorAll('[data-del-person]').forEach(el=>
-      el.addEventListener('click',()=>deleteTask(el.dataset.delPerson,el.dataset.delId)));
+    listEl.querySelectorAll('.task-check').forEach(el=>el.addEventListener('click',()=>toggleTask(el.dataset.person,el.dataset.id,el)));
+    listEl.querySelectorAll('[data-note-person]').forEach(el=>el.addEventListener('click',()=>openNoteModal(el.dataset.notePerson,el.dataset.noteId)));
+    listEl.querySelectorAll('[data-del-person]').forEach(el=>el.addEventListener('click',()=>deleteTask(el.dataset.delPerson,el.dataset.delId)));
   }
-
-  renderWaterWidget(person, listEl);
+  renderWaterWidget(person,listEl);
 }
 
-function toggleTask(person,taskId,el) {
-  const def=cache.taskDefs[person]?.[taskId]; if(!def) return;
-  const today=todayKey();
+function toggleTask(person,taskId,el){
+  const def=cache.taskDefs[person]?.[taskId];if(!def)return;
   const newDone=!(cache.taskState[person]?.[taskId]||false);
-  update(ref(db,`taskState/${person}/${today}`),{[taskId]:newDone});
-
-  el.classList.add('pop'); setTimeout(()=>el.classList.remove('pop'),300);
-
-  if(newDone) {
+  update(ref(db,`taskState/${person}/${todayKey()}`),{[taskId]:newDone});
+  el.classList.add('pop');setTimeout(()=>el.classList.remove('pop'),300);
+  if(newDone){
     showToast('✅ '+def.label.slice(0,28)+' done!');
-    // One-off tasks: remove definition once ticked
-    if(def.recur==='once') {
-      setTimeout(()=>remove(ref(db,`taskDefs/${person}/${taskId}`)),600);
-    }
-    // Check all done
+    if(def.recur==='once')setTimeout(()=>remove(ref(db,`taskDefs/${person}/${taskId}`)),600);
     const all=getActiveTasks(person);
-    if(all.every(t=>t.id===taskId?true:t.done))
-      setTimeout(()=>{confetti();showToast('🎉 All tasks complete!');},300);
+    if(all.every(t=>t.id===taskId?true:t.done))setTimeout(()=>{confetti();showToast('🎉 All tasks complete!');},300);
   }
 }
 window.toggleTask=toggleTask;
 
-function toggleInterval(person) {
-  const type=document.getElementById(person+'-recur-type').value;
-  const wrap=document.getElementById(person+'-interval-wrap');
-  wrap.style.display=type==='interval'?'flex':'none';
-}
+function toggleInterval(person){const t=document.getElementById(person+'-recur-type').value;document.getElementById(person+'-interval-wrap').style.display=t==='interval'?'flex':'none';}
 window.toggleInterval=toggleInterval;
 
-function addTask(person) {
-  const input=document.getElementById(person+'-task-input');
-  const label=input.value.trim(); if(!label) return;
+function addTask(person){
+  const input=document.getElementById(person+'-task-input');const label=input.value.trim();if(!label)return;
   const recur=document.getElementById(person+'-recur-type').value;
   const interval=parseInt(document.getElementById(person+'-interval').value)||2;
   const newRef=push(ref(db,`taskDefs/${person}`));
-  set(newRef,{ label, recur, interval: recur==='interval'?interval:1, createdDate:todayKey() });
-  input.value='';
-  showToast('Task added!');
+  set(newRef,{label,recur,interval:recur==='interval'?interval:1,createdDate:todayKey()});
+  input.value='';showToast('Task added!');
 }
 window.addTask=addTask;
 
-function deleteTask(person,taskId) {
+function deleteTask(person,taskId){
   remove(ref(db,`taskDefs/${person}/${taskId}`));
-  // Also clean up today's state entry
   remove(ref(db,`taskState/${person}/${todayKey()}/${taskId}`));
 }
 window.deleteTask=deleteTask;
 
-// ── Water widget ──────────────────────────────────────────────
-function renderWaterWidget(person,appendTo) {
-  const old=document.getElementById('water-widget-'+person); if(old) old.remove();
-  const waterData=cache.water[person]||{};
-  const glassCount=Object.values(waterData).filter(Boolean).length;
-  const section=document.createElement('div');
-  section.id='water-widget-'+person;
-  section.className='water-section';
-  section.innerHTML=`
-    <div class="water-label">💧 Water — <span id="water-count-${person}">${glassCount} of ${WATER_GLASSES} glasses</span></div>
-    <div class="water-glasses" id="water-glasses-${person}"></div>
-  `;
-  const container=appendTo||document.getElementById(person+'-task-list');
-  container.appendChild(section);
-  const glassesEl=document.getElementById('water-glasses-'+person);
-  for(let i=0;i<WATER_GLASSES;i++){
-    const g=document.createElement('div');
-    g.className='water-glass'+(waterData[`g${i}`]?' filled':'');
-    g.innerHTML='<div class="fill"></div><div class="drop">💧</div>';
-    g.title='Glass '+(i+1);
-    g.addEventListener('click',()=>toggleWater(person,i));
-    glassesEl.appendChild(g);
-  }
+// ── Water ───────────────────────────────────────────────────
+function renderWaterWidget(person,appendTo){
+  const old=document.getElementById('water-widget-'+person);if(old)old.remove();
+  const wd=cache.water[person]||{};
+  const gc=Object.values(wd).filter(Boolean).length;
+  const sec=document.createElement('div');sec.id='water-widget-'+person;sec.className='water-section';
+  sec.innerHTML=`<div class="water-label">💧 Water — <span id="water-count-${person}">${gc} of ${WATER_GLASSES} glasses</span></div><div class="water-glasses" id="water-glasses-${person}"></div>`;
+  const container=appendTo||document.getElementById(person+'-task-list');container.appendChild(sec);
+  const ge=document.getElementById('water-glasses-'+person);
+  for(let i=0;i<WATER_GLASSES;i++){const g=document.createElement('div');g.className='water-glass'+(wd[`g${i}`]?' filled':'');g.innerHTML='<div class="fill"></div><div class="drop">💧</div>';g.addEventListener('click',()=>toggleWater(person,i));ge.appendChild(g);}
 }
-function toggleWater(person,index) {
-  const current=cache.water[person]?.[`g${index}`]||false;
-  update(ref(db,`water/${person}/${todayKey()}`),{[`g${index}`]:!current});
-  if(!current) showToast('💧 Glass '+(index+1)+' done!');
-}
+function toggleWater(person,index){const c=cache.water[person]?.[`g${index}`]||false;update(ref(db,`water/${person}/${todayKey()}`),{[`g${index}`]:!c});if(!c)showToast('💧 Glass '+(index+1)+' done!');}
 
-// ── Note modal ────────────────────────────────────────────────
+// ── Note modal ──────────────────────────────────────────────
 let modalCtx=null;
-function openNoteModal(person,taskId) {
-  const def=cache.taskDefs[person]?.[taskId]; if(!def) return;
+function openNoteModal(person,taskId){
+  const def=cache.taskDefs[person]?.[taskId];if(!def)return;
   modalCtx={person,taskId};
   document.getElementById('modal-title').textContent='📝 Note for: '+def.label;
-  // Note stored in taskDefs
   document.getElementById('modal-note-input').value=def.note||'';
   document.getElementById('note-modal').classList.add('open');
 }
 window.openNoteModal=openNoteModal;
-
-function saveTaskNote() {
-  if(!modalCtx) return;
-  const {person,taskId}=modalCtx;
+function saveTaskNote(){
+  if(!modalCtx)return;
+  const{person,taskId}=modalCtx;
   const note=document.getElementById('modal-note-input').value.trim();
   update(ref(db,`taskDefs/${person}/${taskId}`),{note});
-  closeModal('note-modal'); showToast('Note saved 💕');
+  closeModal('note-modal');showToast('Note saved 💕');
 }
 window.saveTaskNote=saveTaskNote;
-document.getElementById('note-modal').addEventListener('click',e=>{
-  if(e.target===document.getElementById('note-modal')) closeModal('note-modal');
-});
-document.getElementById('food-modal').addEventListener('click',e=>{
-  if(e.target===document.getElementById('food-modal')) closeModal('food-modal');
-});
+['note-modal','food-modal'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{if(e.target===document.getElementById(id))closeModal(id);}));
 
-// ── Food search (Open Food Facts API) ────────────────────────
+// ── Food search ─────────────────────────────────────────────
 let searchDebounce=null;
-
-function initFoodSearch() {
+function initFoodSearch(){
   const input=document.getElementById('food-search');
   const results=document.getElementById('food-search-results');
-
   input.addEventListener('input',()=>{
-    clearTimeout(searchDebounce);
-    const q=input.value.trim();
-    if(q.length<2) { results.classList.remove('open'); return; }
+    clearTimeout(searchDebounce);const q=input.value.trim();
+    if(q.length<2){results.classList.remove('open');return;}
     results.classList.add('open');
-    results.innerHTML='<div class="food-search-status">Searching…</div>';
-    searchDebounce=setTimeout(()=>searchFood(q),400);
+    results.innerHTML='<div class="food-search-status"><div style="display:inline-block;width:14px;height:14px;border:2px solid var(--accent3);border-top-color:var(--accent1);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px;"></div>Searching…</div>';
+    searchDebounce=setTimeout(()=>searchFood(q),500);
   });
-
-  // Close on outside click
-  document.addEventListener('click',e=>{
-    if(!e.target.closest('.food-search-wrap')) results.classList.remove('open');
-  });
+  document.addEventListener('click',e=>{if(!e.target.closest('.food-search-wrap'))results.classList.remove('open');});
 }
-
-async function searchFood(query) {
+async function searchFood(query){
   const results=document.getElementById('food-search-results');
-  try {
+  try{
     const url=`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=8&fields=product_name,nutriments,brands,quantity`;
-    const res=await fetch(url);
-    const data=await res.json();
-    const products=(data.products||[]).filter(p=>
-      p.product_name &&
-      p.nutriments &&
-      p.nutriments['energy-kcal_100g'] != null
-    );
-
-    if(products.length===0) {
-      results.innerHTML='<div class="food-search-status">No results — try a different name</div>';
-      return;
-    }
-
+    const res=await fetch(url);const data=await res.json();
+    const products=(data.products||[]).filter(p=>p.product_name&&p.nutriments&&p.nutriments['energy-kcal_100g']!=null);
+    if(products.length===0){results.innerHTML='<div class="food-search-status">No results — try a different name or use manual entry</div>';return;}
     results.innerHTML='';
     products.forEach(p=>{
-      const kcalPer100=Math.round(p.nutriments['energy-kcal_100g']);
+      const kcal=Math.round(p.nutriments['energy-kcal_100g']);
       const name=p.product_name.slice(0,50);
       const brand=p.brands?p.brands.split(',')[0].trim():'';
       const qty=p.quantity||'';
-      const div=document.createElement('div');
-      div.className='food-result-item';
-      div.innerHTML=`
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-          <div>
-            <div class="food-result-name">${escHtml(name)}</div>
-            <div class="food-result-meta">${escHtml([brand,qty].filter(Boolean).join(' · '))}</div>
-          </div>
-          <div class="food-result-cals">${kcalPer100} kcal/100g</div>
-        </div>
-      `;
-      div.addEventListener('click',()=>openFoodModal(name,kcalPer100));
+      const div=document.createElement('div');div.className='food-result-item';
+      div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><div class="food-result-name">${escHtml(name)}</div><div class="food-result-meta">${escHtml([brand,qty].filter(Boolean).join(' · '))}</div></div><div class="food-result-cals">${kcal} kcal/100g</div></div>`;
+      div.addEventListener('click',()=>openFoodModal(name,kcal));
       results.appendChild(div);
     });
-  } catch(e) {
-    results.innerHTML='<div class="food-search-status">Search unavailable — use manual entry</div>';
-  }
+  }catch(e){results.innerHTML='<div class="food-search-status">Search unavailable — use manual entry</div>';}
 }
-
-function openFoodModal(name,kcalPer100) {
+function openFoodModal(name,kcal){
   document.getElementById('food-search-results').classList.remove('open');
   document.getElementById('food-search').value='';
   document.getElementById('fm-name').value=name;
-  // Pre-fill with 100g worth; user can edit
-  document.getElementById('fm-cals').value=kcalPer100;
+  document.getElementById('fm-cals').value=kcal;
   document.getElementById('food-modal').classList.add('open');
 }
 window.openFoodModal=openFoodModal;
-
-function confirmAddFood() {
+function confirmAddFood(){
   const name=document.getElementById('fm-name').value.trim();
   const cals=parseInt(document.getElementById('fm-cals').value);
   const user=document.getElementById('fm-user').value;
-  if(!name||isNaN(cals)||cals<0){showToast('Please check name & calories');return;}
+  if(!name||isNaN(cals)||cals<0){showToast('Check name & calories');return;}
   const newRef=push(ref(db,`calories/${todayKey()}/entries`));
   set(newRef,{name,cals,user,time:Date.now()});
-  closeModal('food-modal');
-  showToast('🍽️ Logged '+cals+' kcal for '+PARTNER_NAMES[user]);
+  closeModal('food-modal');showToast('🍽️ Logged '+cals+' kcal for '+PARTNER_NAMES[user]);
 }
 window.confirmAddFood=confirmAddFood;
 
-// ── Calories (manual) ────────────────────────────────────────
-function renderCalories() {
+// ── Calories ────────────────────────────────────────────────
+function renderCalories(){
   const entries=Object.values(cache.calories||{});
   const p1Total=entries.filter(e=>e.user==='p1').reduce((s,e)=>s+(e.cals||0),0);
   const p2Total=entries.filter(e=>e.user==='p2').reduce((s,e)=>s+(e.cals||0),0);
@@ -964,59 +979,43 @@ function renderCalories() {
   document.getElementById('p2-cal-num').textContent=p2Total;
   document.getElementById('p1-cal-bar').style.width=Math.min(p1Total/CALORIE_GOALS.p1*100,100)+'%';
   document.getElementById('p2-cal-bar').style.width=Math.min(p2Total/CALORIE_GOALS.p2*100,100)+'%';
-
   const listEl=document.getElementById('food-log-list');
-  if(entries.length===0){
-    listEl.innerHTML='<div class="empty-state"><div class="empty-icon">🥑</div>Nothing logged yet!</div>';
-    return;
-  }
+  if(!entries.length){listEl.innerHTML='<div class="empty-state"><div class="empty-icon">🥑</div>Nothing logged yet!</div>';return;}
   listEl.innerHTML='';
   Object.entries(cache.calories||{}).sort((a,b)=>(b[1].time||0)-(a[1].time||0)).forEach(([id,e])=>{
-    const div=document.createElement('div'); div.className='food-item';
-    div.innerHTML=`
-      <div class="food-name">${escHtml(e.name)}</div>
-      <div class="food-user-tag">${escHtml(PARTNER_NAMES[e.user]||e.user)}</div>
-      <div class="food-cals">${e.cals} kcal</div>
-      <button class="food-delete" data-food-id="${id}">✕</button>
-    `;
+    const div=document.createElement('div');div.className='food-item';
+    div.innerHTML=`<div class="food-name">${escHtml(e.name)}</div><div class="food-user-tag">${escHtml(PARTNER_NAMES[e.user]||e.user)}</div><div class="food-cals">${e.cals} kcal</div><button class="food-delete" data-food-id="${id}">✕</button>`;
     listEl.appendChild(div);
   });
-  listEl.querySelectorAll('.food-delete').forEach(el=>
-    el.addEventListener('click',()=>deleteFood(el.dataset.foodId)));
+  listEl.querySelectorAll('.food-delete').forEach(el=>el.addEventListener('click',()=>deleteFood(el.dataset.foodId)));
 }
-
-function addFood() {
+function addFood(){
   const name=document.getElementById('food-name-input').value.trim();
   const cals=parseInt(document.getElementById('food-cal-input').value);
   const user=document.getElementById('food-user-select').value;
   if(!name||isNaN(cals)||cals<0){showToast('Please enter food name & calories');return;}
   const newRef=push(ref(db,`calories/${todayKey()}/entries`));
   set(newRef,{name,cals,user,time:Date.now()});
-  document.getElementById('food-name-input').value='';
-  document.getElementById('food-cal-input').value='';
+  document.getElementById('food-name-input').value='';document.getElementById('food-cal-input').value='';
   showToast('🍽️ Logged '+cals+' kcal for '+PARTNER_NAMES[user]);
 }
 window.addFood=addFood;
-
 function deleteFood(id){remove(ref(db,`calories/${todayKey()}/entries/${id}`));}
-function clearTodayFood(){
-  if(!confirm('Clear all food entries for today?')) return;
-  remove(ref(db,`calories/${todayKey()}/entries`));
-}
+function clearTodayFood(){if(!confirm('Clear all food entries for today?'))return;remove(ref(db,`calories/${todayKey()}/entries`));}
 window.clearTodayFood=clearTodayFood;
 
-// ── Logs ──────────────────────────────────────────────────────
-function renderLogs() {
+// ── Logs ────────────────────────────────────────────────────
+function renderLogs(){
   const today=todayKey();
-  const allLogs=Object.entries(cache.logs||{}).map(([id,l])=>({id,...l})).sort((a,b)=>(b.time||0)-(a.time||0));
-  const todayLogs=allLogs.filter(l=>l.date===today).slice(0,3);
+  const all=Object.entries(cache.logs||{}).map(([id,l])=>({id,...l})).sort((a,b)=>(b.time||0)-(a.time||0));
+  const todayLogs=all.filter(l=>l.date===today).slice(0,3);
   const dashEl=document.getElementById('dash-recent-logs');
-  if(dashEl) dashEl.innerHTML=todayLogs.length?todayLogs.map(l=>logHtml(l,true)).join(''):'<div class="empty-state"><div class="empty-icon">🌱</div>No notes yet today</div>';
-  const listEl=document.getElementById('log-list'); if(!listEl) return;
-  listEl.innerHTML=allLogs.length?allLogs.map(l=>logHtml(l,false)).join(''):'<div class="empty-state"><div class="empty-icon">📖</div>Your story starts here!</div>';
+  if(dashEl)dashEl.innerHTML=todayLogs.length?todayLogs.map(l=>logHtml(l,true)).join(''):'<div class="empty-state"><div class="empty-icon">🌱</div>No notes yet today</div>';
+  const listEl=document.getElementById('log-list');if(!listEl)return;
+  listEl.innerHTML=all.length?all.map(l=>logHtml(l,false)).join(''):'<div class="empty-state"><div class="empty-icon">📖</div>Your story starts here!</div>';
   listEl.querySelectorAll('.log-delete').forEach(el=>el.addEventListener('click',()=>deleteLog(el.dataset.logId)));
 }
-function logHtml(l,compact) {
+function logHtml(l,compact){
   const d=new Date(l.time||Date.now());
   const t=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
   return `<div class="log-entry"><div class="log-entry-header"><span class="log-user-tag">${escHtml(PARTNER_NAMES[l.user]||l.user)}</span><div style="display:flex;align-items:center;gap:6px;"><span class="log-meta">${t}</span>${!compact?`<button class="log-delete" data-log-id="${l.id}">✕</button>`:''}</div></div><div class="log-text">${escHtml(l.text)}</div></div>`;
@@ -1024,26 +1023,93 @@ function logHtml(l,compact) {
 function addLog(){
   const text=document.getElementById('log-text-input').value.trim();
   const user=document.getElementById('log-user-select').value;
-  if(!text) return;
-  const newRef=push(ref(db,'logs'));
-  set(newRef,{text,user,date:todayKey(),time:Date.now()});
-  document.getElementById('log-text-input').value='';
-  showToast('Note saved 💕');
+  if(!text)return;
+  const newRef=push(ref(db,'logs'));set(newRef,{text,user,date:todayKey(),time:Date.now()});
+  document.getElementById('log-text-input').value='';showToast('Note saved 💕');
 }
 window.addLog=addLog;
 function deleteLog(id){remove(ref(db,`logs/${id}`));}
 function clearOldLogs(){
-  const today=todayKey();
-  if(!confirm('Remove all notes from before today?')) return;
-  Object.entries(cache.logs||{}).forEach(([id,l])=>{if(l.date!==today) remove(ref(db,`logs/${id}`));});
+  const today=todayKey();if(!confirm('Remove notes before today?'))return;
+  Object.entries(cache.logs||{}).forEach(([id,l])=>{if(l.date!==today)remove(ref(db,`logs/${id}`));});
 }
 window.clearOldLogs=clearOldLogs;
 
-// ── Dashboard ─────────────────────────────────────────────────
-function renderDashboard() {
-  const p1Tasks=getActiveTasks('p1'), p2Tasks=getActiveTasks('p2');
-  const p1Done=p1Tasks.filter(t=>t.done).length, p2Done=p2Tasks.filter(t=>t.done).length;
-  const totalAll=p1Tasks.length+p2Tasks.length, totalDone=p1Done+p2Done;
+// ── Messages / Encouragement ─────────────────────────────────
+function sendMessage(){
+  const text=document.getElementById('msg-input').value.trim();
+  const from=document.getElementById('msg-from-select').value;
+  if(!text)return;
+  const newRef=push(ref(db,'messages'));
+  set(newRef,{text,from,date:todayKey(),time:Date.now(),read:false});
+  document.getElementById('msg-input').value='';
+  showToast('💌 Message sent!');
+}
+window.sendMessage=sendMessage;
+
+function renderMessages(){
+  const all=Object.entries(cache.messages||{}).map(([id,m])=>({id,...m})).sort((a,b)=>(b.time||0)-(a.time||0));
+  const listEl=document.getElementById('msg-list');
+  if(!all.length){listEl.innerHTML='<div class="empty-state"><div class="empty-icon">💌</div>No messages yet — send some love!</div>';return;}
+  listEl.innerHTML='';
+  all.forEach(m=>{
+    const d=new Date(m.time||Date.now());
+    const t=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    const div=document.createElement('div');div.className='msg-item';
+    div.innerHTML=`<div><div class="msg-text">${escHtml(m.text)}</div><div class="msg-meta">From ${escHtml(PARTNER_NAMES[m.from]||m.from)} · ${t}</div></div><button class="msg-delete" data-msg-id="${m.id}">✕</button>`;
+    listEl.appendChild(div);
+  });
+  // Unread badge on tab
+  const unread=Object.values(cache.messages||{}).filter(m=>!m.read).length;
+  const tab=document.querySelectorAll('.nav-tab')[4];
+  tab.innerHTML='💬 Messages'+(unread>0?` <span class="msg-unread-badge">${unread}</span>`:'');
+  listEl.querySelectorAll('.msg-delete').forEach(el=>el.addEventListener('click',()=>deleteMessage(el.dataset.msgId)));
+}
+
+function deleteMessage(id){remove(ref(db,`messages/${id}`));}
+
+function checkForUnreadBanner(){
+  const msgs=Object.entries(cache.messages||{}).filter(([,m])=>!m.read);
+  if(!msgs.length)return;
+  // Show the most recent unread
+  const latest=msgs.sort((a,b)=>(b[1].time||0)-(a[1].time||0))[0];
+  const[id,m]=latest;
+  const banner=document.getElementById('encourage-banner');
+  document.getElementById('encourage-banner-text').textContent=
+    '💕 '+escHtml(PARTNER_NAMES[m.from]||m.from)+' says: '+m.text;
+  banner.style.display='block';
+  // Push content down
+  document.querySelector('.app-header').style.marginTop='52px';
+  // Auto-dismiss after 8s
+  setTimeout(()=>dismissBanner(id),8000);
+}
+function dismissBanner(id){
+  document.getElementById('encourage-banner').style.display='none';
+  document.querySelector('.app-header').style.marginTop='0';
+  // Mark all unread as read
+  Object.entries(cache.messages||{}).filter(([,m])=>!m.read).forEach(([mid])=>{
+    update(ref(db,`messages/${mid}`),{read:true});
+  });
+}
+window.dismissBanner=dismissBanner;
+
+function markMessagesRead(){
+  Object.entries(cache.messages||{}).filter(([,m])=>!m.read).forEach(([id])=>{
+    update(ref(db,`messages/${id}`),{read:true});
+  });
+}
+
+function clearOldMessages(){
+  const today=todayKey();if(!confirm('Remove messages older than today?'))return;
+  Object.entries(cache.messages||{}).forEach(([id,m])=>{if(m.date!==today)remove(ref(db,`messages/${id}`));});
+}
+window.clearOldMessages=clearOldMessages;
+
+// ── Dashboard ────────────────────────────────────────────────
+function renderDashboard(){
+  const p1Tasks=getActiveTasks('p1'),p2Tasks=getActiveTasks('p2');
+  const p1Done=p1Tasks.filter(t=>t.done).length,p2Done=p2Tasks.filter(t=>t.done).length;
+  const totalAll=p1Tasks.length+p2Tasks.length,totalDone=p1Done+p2Done;
   const pct=totalAll?Math.round(totalDone/totalAll*100):0;
   document.getElementById('dash-tasks-done').textContent=totalDone;
   document.getElementById('dash-tasks-total').textContent='of '+totalAll+' tasks';
@@ -1058,9 +1124,144 @@ function renderDashboard() {
   document.getElementById('dash-p1-cals').textContent=p1Cals+' kcal logged';
   document.getElementById('dash-p2-cals').textContent=p2Cals+' kcal logged';
   renderLogs();
+  renderStreakWidget();
+  renderWeeklySummary();
 }
 
-// ── Keyboard shortcuts ────────────────────────────────────────
+function renderStreakWidget(){
+  const streak=computeStreak();
+  const wrap=document.getElementById('streak-widget-wrap');
+  if(streak===0){wrap.innerHTML='';return;}
+  wrap.innerHTML=`<div class="streak-widget">
+    <div class="streak-num">${streak}🔥</div>
+    <div><div class="streak-info-label">Day streak!</div><div class="streak-info-sub">Keep it up together 💕</div></div>
+  </div>`;
+}
+
+function renderWeeklySummary(){
+  const wrap=document.getElementById('weekly-summary-wrap');
+  // Only show on Mondays (day 1) or if there's a last week entry
+  const now=new Date();
+  // Get last week Mon–Sun
+  const dayOfWeek=now.getDay(); // 0=Sun
+  const lastMonday=new Date(now);lastMonday.setDate(now.getDate()-(dayOfWeek===0?6:dayOfWeek-1)-7);
+  const lastSunday=new Date(lastMonday);lastSunday.setDate(lastMonday.getDate()+6);
+
+  const weekDays=[];
+  for(let d=new Date(lastMonday);d<=lastSunday;d.setDate(d.getDate()+1)){
+    weekDays.push(d.toISOString().slice(0,10));
+  }
+  const hist=cache.history||{};
+  const weekData=weekDays.map(d=>hist[d]).filter(Boolean);
+  if(weekData.length===0){wrap.innerHTML='';return;}
+
+  const avgPct=Math.round(weekData.reduce((s,d)=>s+(d.pct||0),0)/weekData.length);
+  const avgTasks=weekData.length?Math.round(weekData.reduce((s,d)=>s+(d.tasksDone||0),0)/weekData.length):0;
+  const avgWater=weekData.length?Math.round((weekData.reduce((s,d)=>s+(d.p1Water||0)+(d.p2Water||0),0)/weekData.length/2)*10)/10:0;
+  const daysGreen=weekData.filter(d=>d.pct>=100).length;
+
+  const monStr=lastMonday.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  const sunStr=lastSunday.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+
+  wrap.innerHTML=`<div class="card weekly-card">
+    <div class="card-header"><span class="card-title">📊 Last Week</span><span style="font-size:12px;color:var(--text3);">${monStr}–${sunStr}</span></div>
+    <div class="card-body">
+      <div class="weekly-stat-row">
+        <div class="weekly-stat"><div class="weekly-stat-val">${avgPct}%</div><div class="weekly-stat-lbl">avg score</div></div>
+        <div class="weekly-stat"><div class="weekly-stat-val">${avgTasks}</div><div class="weekly-stat-lbl">avg tasks/day</div></div>
+        <div class="weekly-stat"><div class="weekly-stat-val">${avgWater}</div><div class="weekly-stat-lbl">avg glasses</div></div>
+        <div class="weekly-stat"><div class="weekly-stat-val">${daysGreen}/${weekData.length}</div><div class="weekly-stat-lbl">🟢 days</div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── Calendar ────────────────────────────────────────────────
+let calYear=new Date().getFullYear();
+let calMonth=new Date().getMonth();
+
+function calPrevMonth(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
+function calNextMonth(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCalendar();}
+window.calPrevMonth=calPrevMonth;window.calNextMonth=calNextMonth;
+
+function renderCalendar(){
+  const today=todayKey();
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-month-label').textContent=monthNames[calMonth]+' '+calYear;
+
+  const grid=document.getElementById('cal-grid');grid.innerHTML='';
+  // Day of week headers
+  ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(d=>{
+    const el=document.createElement('div');el.className='cal-dow';el.textContent=d;grid.appendChild(el);
+  });
+
+  const firstDay=new Date(calYear,calMonth,1);
+  let startDow=firstDay.getDay();startDow=startDow===0?6:startDow-1; // Mon=0
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+
+  for(let i=0;i<startDow;i++){const el=document.createElement('div');el.className='cal-day empty';grid.appendChild(el);}
+
+  for(let day=1;day<=daysInMonth;day++){
+    const dateStr=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const el=document.createElement('div');
+    el.textContent=day;
+
+    const isFuture=dateStr>today;
+    const isToday=dateStr===today;
+
+    if(isFuture){el.className='cal-day future';}
+    else if(isToday){
+      const s=todayScore();
+      el.className=`cal-day today score-${scoreClass(s.pct)}`;
+      el.title=`Today: ${s.pct}%`;
+      el.addEventListener('click',()=>showDayDetail(dateStr,s));
+    } else {
+      const h=cache.history?.[dateStr];
+      const cls=h?scoreClass(h.pct):'grey';
+      el.className=`cal-day score-${cls}`;
+      el.title=h?`${dateStr}: ${h.pct}%`:dateStr;
+      el.addEventListener('click',()=>showDayDetail(dateStr,h));
+    }
+    grid.appendChild(el);
+  }
+}
+
+function showDayDetail(dateStr,data){
+  const wrap=document.getElementById('day-detail-wrap');
+  const d=new Date(dateStr+'T12:00:00');
+  const label=d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+
+  if(!data){
+    wrap.innerHTML=`<div class="day-detail"><div class="day-detail-title">${label}<button class="day-detail-close" onclick="document.getElementById('day-detail-wrap').innerHTML=''">✕</button></div><div style="font-size:13px;color:var(--text3);">No data recorded for this day.</div></div>`;
+    return;
+  }
+
+  const cls=scoreClass(data.pct);
+  wrap.innerHTML=`<div class="day-detail">
+    <div class="day-detail-title">${label}<button class="day-detail-close" onclick="document.getElementById('day-detail-wrap').innerHTML=''">✕</button></div>
+    <div class="score-ring ${cls}">
+      <div class="score-ring-pct">${data.pct}%</div>
+      <div class="score-ring-label">combined score<br><span style="font-size:10px;opacity:0.8;">${data.totalEarned?.toFixed?.(1)??data.totalEarned||0} / ${data.totalPossible||0} points</span></div>
+    </div>
+    <div class="day-detail-section">
+      <div class="day-detail-label">Tasks</div>
+      <span class="day-detail-pill ${data.tasksDone>0?'done':''}">${data.tasksDone||0} / ${data.tasksTotal||0} completed</span>
+    </div>
+    <div class="day-detail-section">
+      <div class="day-detail-label">Water</div>
+      <span class="day-detail-pill">${PARTNER_NAMES.p1}: ${data.p1Water||0} glasses</span>
+      <span class="day-detail-pill">${PARTNER_NAMES.p2}: ${data.p2Water||0} glasses</span>
+    </div>
+    <div class="day-detail-section">
+      <div class="day-detail-label">Calories</div>
+      <span class="day-detail-pill">${PARTNER_NAMES.p1}: ${data.p1Cals||0} kcal</span>
+      <span class="day-detail-pill">${PARTNER_NAMES.p2}: ${data.p2Cals||0} kcal</span>
+    </div>
+  </div>`;
+  wrap.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── Keyboard shortcuts ───────────────────────────────────────
 document.getElementById('p1-task-input').addEventListener('keydown',e=>{if(e.key==='Enter')addTask('p1');});
 document.getElementById('p2-task-input').addEventListener('keydown',e=>{if(e.key==='Enter')addTask('p2');});
 document.getElementById('food-cal-input').addEventListener('keydown',e=>{if(e.key==='Enter')addFood();});
