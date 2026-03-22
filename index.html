@@ -413,7 +413,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 <script src="config.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, onValue, push, remove, update }
+import { getDatabase, ref, set, onValue, push, remove, update, get }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { getAuth, signInAnonymously, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -423,7 +423,6 @@ if (typeof CONFIG === 'undefined') {
   throw new Error('CONFIG not defined');
 }
 
-const APP_PASSWORD   = CONFIG.password;
 const CALORIE_GOALS  = CONFIG.calorieGoals;  // { p1: number, p2: number }
 const PARTNER_NAMES  = CONFIG.names;
 const firebaseConfig = CONFIG.firebase;
@@ -438,6 +437,9 @@ const DEFAULT_TASKS = [
 const fbApp = initializeApp(firebaseConfig);
 const db    = getDatabase(fbApp);
 const auth  = getAuth(fbApp);
+
+// Expose to window so checkPassword() can reach them before initApp runs
+window._fbApp = fbApp;
 
 // ── Themes ────────────────────────────────────────────
 const THEMES      = ['','teal','dark','warm'];
@@ -505,21 +507,47 @@ function showSection(name, btn) {
 }
 window.showSection = showSection;
 
-// ── Password ──────────────────────────────────────────
-function checkPassword() {
+// ── Password (hash fetched from Firebase, compared via Web Crypto) ────
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+async function checkPassword() {
   const val   = document.getElementById('pw-input').value;
   const input = document.getElementById('pw-input');
   const err   = document.getElementById('pw-error');
-  if (val === APP_PASSWORD) {
-    document.getElementById('lock-screen').classList.add('fade-out');
-    document.getElementById('loading-overlay').classList.remove('hidden');
-    setTimeout(()=>document.getElementById('lock-screen').style.display='none', 650);
-    initApp();
-  } else {
-    input.classList.add('error');
-    err.textContent = 'Wrong password — try again 🔒';
-    setTimeout(()=>input.classList.remove('error'), 500);
-    input.value = '';
+  const btn   = document.querySelector('.lock-btn');
+
+  if (!val) return;
+  btn.textContent = 'Checking…';
+  btn.disabled = true;
+
+  try {
+    const snap = await get(ref(db, 'config/passwordHash'));
+    const storedHash = snap.val();
+    if (!storedHash) throw new Error('No password hash in database');
+
+    const typedHash = await sha256(val);
+
+    if (typedHash === storedHash) {
+      document.getElementById('lock-screen').classList.add('fade-out');
+      document.getElementById('loading-overlay').classList.remove('hidden');
+      setTimeout(()=>document.getElementById('lock-screen').style.display='none', 650);
+      initApp();
+    } else {
+      input.classList.add('error');
+      err.textContent = 'Wrong password — try again 🔒';
+      setTimeout(()=>input.classList.remove('error'), 500);
+      input.value = '';
+      btn.textContent = 'Enter ✨';
+      btn.disabled = false;
+    }
+  } catch(e) {
+    console.error('Password check error:', e);
+    err.textContent = 'Connection error — try again';
+    btn.textContent = 'Enter ✨';
+    btn.disabled = false;
   }
 }
 window.checkPassword = checkPassword;
