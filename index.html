@@ -6,9 +6,6 @@
 <title>Our Daily Tracker 💕</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-/* ============================================
-   THEME VARIABLES
-   ============================================ */
 :root {
   --bg: #fdf6f0; --bg2: #fef0ea; --card: #ffffff; --card2: #fff8f5;
   --accent1: #e8849a; --accent2: #c4607a; --accent3: #f5b8c4; --accent4: #fce4ec;
@@ -38,7 +35,6 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; transition: background 0.4s, color 0.4s; }
 
-/* PASSWORD SCREEN */
 #lock-screen { position:fixed;inset:0;background:var(--gradient);display:flex;align-items:center;justify-content:center;z-index:1000;transition:opacity 0.6s; }
 #lock-screen.fade-out { opacity:0;pointer-events:none; }
 .lock-card { background:white;border-radius:28px;padding:48px 40px;width:min(380px,90vw);text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.15);animation:slideUp 0.5s ease; }
@@ -54,17 +50,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .lock-btn:hover { transform:translateY(-2px);box-shadow:0 8px 20px rgba(200,100,120,0.3); }
 .lock-error { color:#e84949;font-size:13px;margin-top:10px;min-height:20px; }
 
-/* SYNC STATUS */
 .sync-dot { width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px;background:#aaa;transition:background 0.3s; }
 .sync-dot.live { background:#4caf50; }
 .sync-dot.offline { background:#e84949; }
 .sync-label { font-size:12px;color:var(--text3); }
 
-/* MAIN APP */
 #app { display:none; }
-#app.visible { display:block; }
-
-/* Header */
 .app-header { background:var(--card);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px var(--shadow); }
 .header-title { font-family:'Playfair Display',serif;font-size:20px;color:var(--accent1); }
 .header-right { display:flex;align-items:center;gap:8px; }
@@ -72,7 +63,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .theme-btn:hover { background:var(--accent4);color:var(--accent1); }
 .date-badge { background:var(--accent4);color:var(--accent2);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:500; }
 
-/* Nav */
 .nav-tabs { display:flex;background:var(--card);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none; }
 .nav-tabs::-webkit-scrollbar { display:none; }
 .nav-tab { flex:1;min-width:70px;padding:13px 12px;text-align:center;cursor:pointer;font-size:12px;font-weight:500;color:var(--text3);border-bottom:3px solid transparent;transition:all 0.2s;white-space:nowrap;font-family:'DM Sans',sans-serif;background:none;border-top:none;border-left:none;border-right:none; }
@@ -84,13 +74,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .section.active { display:block; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
 
-/* Cards */
 .card { background:var(--card);border-radius:20px;border:1px solid var(--border);margin-bottom:14px;overflow:hidden;box-shadow:0 2px 12px var(--shadow); }
 .card-header { padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border); }
 .card-title { font-family:'Playfair Display',serif;font-size:17px;color:var(--text); }
 .card-body { padding:14px 18px; }
 
-/* Tasks */
 .task-item { display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);transition:opacity 0.3s; }
 .task-item:last-child { border-bottom:none; }
 .task-item.done .task-label { text-decoration:line-through;color:var(--text3); }
@@ -115,7 +103,31 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .progress-bar { height:7px;background:var(--accent4);border-radius:99px;overflow:hidden; }
 .progress-fill { height:100%;background:var(--gradient);border-radius:99px;transition:width 0.5s ease; }
 
-/* Calories */
+/* Water tracker */
+.water-section { padding:12px 0 4px;border-top:1px solid var(--border);margin-top:4px; }
+.water-label { font-size:12px;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:6px; }
+.water-glasses { display:flex;gap:6px;flex-wrap:wrap; }
+.water-glass {
+  width:30px;height:36px;cursor:pointer;
+  border:2px solid var(--accent3);border-radius:3px 3px 6px 6px;
+  background:transparent;position:relative;overflow:hidden;
+  transition:border-color 0.2s,transform 0.15s;flex-shrink:0;
+}
+.water-glass:hover { transform:translateY(-2px); }
+.water-glass.filled { border-color:var(--accent1); }
+.water-glass .fill {
+  position:absolute;bottom:0;left:0;right:0;height:0;
+  background:var(--accent1);opacity:0.8;
+  transition:height 0.3s ease;border-radius:0 0 4px 4px;
+}
+.water-glass.filled .fill { height:100%; }
+.water-glass .drop {
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:13px;z-index:1;opacity:0;transition:opacity 0.2s;
+}
+.water-glass.filled .drop { opacity:1; }
+.water-count { font-size:11px;color:var(--accent1);font-weight:600;margin-top:7px; }
+
 .calorie-total { text-align:center;padding:18px;background:var(--gradient);border-radius:16px;margin-bottom:14px;color:white; }
 .calorie-total-num { font-family:'Playfair Display',serif;font-size:46px;font-weight:700;line-height:1; }
 .calorie-total-label { font-size:13px;opacity:0.85;margin-top:4px; }
@@ -135,7 +147,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .goal-bar-name { font-size:12px;color:var(--text2);margin-bottom:3px;font-weight:500; }
 .goal-bar-sub { font-size:11px;color:var(--text3);margin-bottom:4px; }
 
-/* Logs */
 .log-entry { padding:12px;background:var(--bg2);border-radius:12px;margin-bottom:8px;border-left:3px solid var(--accent1); }
 .log-entry-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:5px; }
 .log-meta { font-size:11px;color:var(--text3); }
@@ -148,7 +159,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .log-textarea:focus { border-color:var(--accent1);background:var(--card); }
 .log-form-row { display:flex;gap:8px;flex-wrap:wrap; }
 
-/* Dashboard */
 .dash-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px; }
 @media(max-width:480px){.dash-grid{grid-template-columns:1fr;}}
 .dash-stat { background:var(--card);border-radius:18px;border:1px solid var(--border);padding:16px;text-align:center;box-shadow:0 2px 10px var(--shadow); }
@@ -156,7 +166,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .dash-stat-label { font-size:11px;color:var(--text3);margin-top:3px; }
 .dash-stat-sub { font-size:13px;color:var(--text2);font-weight:500;margin-top:2px; }
 
-/* Modal */
 .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.2s; }
 .modal-overlay.open { opacity:1;pointer-events:all; }
 .modal { background:var(--card);border-radius:20px;padding:26px;width:min(380px,92vw);transform:translateY(20px);transition:transform 0.2s;box-shadow:0 20px 50px rgba(0,0,0,0.2); }
@@ -168,27 +177,22 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .btn-primary { padding:9px 16px;background:var(--accent1);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:white;font-weight:500;transition:all 0.2s; }
 .btn-primary:hover { background:var(--accent2); }
 
-/* Empty states */
 .empty-state { text-align:center;padding:28px 16px;color:var(--text3);font-size:13px; }
 .empty-state .empty-icon { font-size:32px;margin-bottom:7px; }
 
-/* Loading overlay */
 #loading-overlay { position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:900;gap:12px; }
 #loading-overlay.hidden { display:none; }
 .spinner { width:36px;height:36px;border:3px solid var(--accent4);border-top-color:var(--accent1);border-radius:50%;animation:spin 0.8s linear infinite; }
 @keyframes spin { to{transform:rotate(360deg)} }
 .loading-text { font-size:14px;color:var(--text3); }
 
-/* Confetti */
 .confetti-wrap { position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden; }
 .confetti-piece { position:absolute;width:8px;height:8px;border-radius:2px;animation:confettiFall 1.5s ease-in forwards; }
 @keyframes confettiFall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
 
-/* Toast */
 .toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:11px 22px;border-radius:99px;font-size:13px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap; }
 .toast.show { opacity:1; }
 
-/* Task check animation */
 @keyframes checkPop { 0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)} }
 .task-check.pop { animation:checkPop 0.25s ease; }
 
@@ -201,7 +205,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 </head>
 <body>
 
-<!-- PASSWORD SCREEN -->
 <div id="lock-screen">
   <div class="lock-card">
     <div class="lock-emoji">💕</div>
@@ -213,13 +216,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
   </div>
 </div>
 
-<!-- LOADING (shown after login while Firebase connects) -->
 <div id="loading-overlay" class="hidden">
   <div class="spinner"></div>
   <div class="loading-text">Syncing with the cloud… 💕</div>
 </div>
 
-<!-- MAIN APP -->
 <div id="app">
   <header class="app-header">
     <div class="header-title">💕 Our Tracker</div>
@@ -254,23 +255,18 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
           <div class="dash-stat-label">combined today</div>
         </div>
       </div>
-
       <div class="card">
-        <div class="card-header">
-          <span class="card-title">👫 Today's Summary</span>
-        </div>
+        <div class="card-header"><span class="card-title">👫 Today's Summary</span></div>
         <div class="card-body">
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
             <div style="flex:1;min-width:130px;">
-              <!-- 🔧 CHANGE NAME: Replace "Partner 1" with first person's name -->
-              <div style="font-weight:600;color:var(--accent1);margin-bottom:7px;">Partner 1</div>
+              <div id="dash-p1-name" style="font-weight:600;color:var(--accent1);margin-bottom:7px;"></div>
               <div id="dash-p1-tasks" style="font-size:12px;color:var(--text2);margin-bottom:3px;">— tasks</div>
               <div id="dash-p1-cals" style="font-size:12px;color:var(--text2);">— kcal</div>
             </div>
             <div style="width:1px;background:var(--border);"></div>
             <div style="flex:1;min-width:130px;">
-              <!-- 🔧 CHANGE NAME: Replace "Partner 2" with second person's name -->
-              <div style="font-weight:600;color:var(--accent2);margin-bottom:7px;">Partner 2</div>
+              <div id="dash-p2-name" style="font-weight:600;color:var(--accent2);margin-bottom:7px;"></div>
               <div id="dash-p2-tasks" style="font-size:12px;color:var(--text2);margin-bottom:3px;">— tasks</div>
               <div id="dash-p2-cals" style="font-size:12px;color:var(--text2);">— kcal</div>
             </div>
@@ -281,7 +277,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-header">
           <span class="card-title">📝 Recent Notes</span>
@@ -297,8 +292,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="section" id="section-tasks">
       <div class="card">
         <div class="card-header">
-          <!-- 🔧 CHANGE NAME: Replace "Partner 1" -->
-          <span class="card-title">✅ Partner 1's Tasks</span>
+          <span class="card-title" id="p1-task-card-title">✅ Tasks</span>
           <span id="p1-task-progress" style="font-size:12px;color:var(--text3);">0/0</span>
         </div>
         <div class="card-body">
@@ -312,11 +306,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-header">
-          <!-- 🔧 CHANGE NAME: Replace "Partner 2" -->
-          <span class="card-title">✅ Partner 2's Tasks</span>
+          <span class="card-title" id="p2-task-card-title">✅ Tasks</span>
           <span id="p2-task-progress" style="font-size:12px;color:var(--text3);">0/0</span>
         </div>
         <div class="card-body">
@@ -339,46 +331,34 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="calorie-total-num" id="cal-combined-total">0</div>
         <div class="calorie-total-label">calories</div>
       </div>
-
       <div class="card">
         <div class="card-header"><span class="card-title">📊 Per Person</span></div>
         <div class="card-body">
           <div class="goal-bars">
             <div class="goal-bar-item">
-              <!-- 🔧 CHANGE NAME -->
-              <div class="goal-bar-name">Partner 1</div>
-              <div class="goal-bar-sub"><span id="p1-cal-num">0</span> kcal</div>
+              <div class="goal-bar-name" id="cal-p1-name"></div>
+              <div class="goal-bar-sub"><span id="p1-cal-num">0</span> / <span id="p1-goal-label"></span> kcal</div>
               <div class="progress-bar"><div class="progress-fill" id="p1-cal-bar" style="width:0%"></div></div>
             </div>
             <div class="goal-bar-item">
-              <!-- 🔧 CHANGE NAME -->
-              <div class="goal-bar-name">Partner 2</div>
-              <div class="goal-bar-sub"><span id="p2-cal-num">0</span> kcal</div>
+              <div class="goal-bar-name" id="cal-p2-name"></div>
+              <div class="goal-bar-sub"><span id="p2-cal-num">0</span> / <span id="p2-goal-label"></span> kcal</div>
               <div class="progress-bar"><div class="progress-fill" id="p2-cal-bar" style="width:0%"></div></div>
             </div>
           </div>
-          <div style="font-size:11px;color:var(--text3);margin-top:9px;text-align:center;">
-            Goal: 2000 kcal per person <!-- 🔧 CALORIE GOAL: Change "2000" to your target -->
-          </div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-header"><span class="card-title">🍽️ Log Food</span></div>
         <div class="card-body">
           <div class="calorie-form">
             <input type="text" class="add-input" id="food-name-input" placeholder="Food name…" />
             <input type="number" class="add-input cal-input" id="food-cal-input" placeholder="kcal" min="0" />
-            <select class="user-select" id="food-user-select">
-              <!-- 🔧 CHANGE NAME: Replace option text -->
-              <option value="p1">Partner 1</option>
-              <option value="p2">Partner 2</option>
-            </select>
+            <select class="user-select" id="food-user-select"></select>
             <button class="add-btn" onclick="addFood()">+ Log</button>
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-header">
           <span class="card-title">📋 Today's Food Log</span>
@@ -398,11 +378,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
           <div class="log-form">
             <textarea class="log-textarea" id="log-text-input" placeholder="Write a note, reflection, or progress update…"></textarea>
             <div class="log-form-row">
-              <select class="user-select" id="log-user-select">
-                <!-- 🔧 CHANGE NAME -->
-                <option value="p1">Partner 1</option>
-                <option value="p2">Partner 2</option>
-              </select>
+              <select class="user-select" id="log-user-select"></select>
               <button class="add-btn" onclick="addLog()">Save Note 💕</button>
             </div>
           </div>
@@ -419,10 +395,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       </div>
     </div>
 
-  </div><!-- /main-content -->
-</div><!-- /app -->
+  </div>
+</div>
 
-<!-- Toast & Modal -->
 <div class="toast" id="toast"></div>
 <div class="modal-overlay" id="note-modal">
   <div class="modal">
@@ -435,12 +410,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
   </div>
 </div>
 
-<!-- Load config before the app module -->
 <script src="config.js"></script>
-
-<!-- ============================================================
-     FIREBASE + APP SCRIPT
-     ============================================================ -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, push, remove, update }
@@ -448,153 +418,126 @@ import { getDatabase, ref, set, onValue, push, remove, update }
 import { getAuth, signInAnonymously, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// ============================================================
-//  CONFIG — values come from config.js (not committed to GitHub)
-// ============================================================
 if (typeof CONFIG === 'undefined') {
-  document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#c00">⚠️ config.js not found. Make sure config.js is in the same folder as index.html.</div>';
-  throw new Error('CONFIG not defined — config.js missing');
+  document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;color:#c00">⚠️ config.js not found.</div>';
+  throw new Error('CONFIG not defined');
 }
 
 const APP_PASSWORD   = CONFIG.password;
-const CALORIE_GOAL   = CONFIG.calorieGoal;
+const CALORIE_GOALS  = CONFIG.calorieGoals;  // { p1: number, p2: number }
 const PARTNER_NAMES  = CONFIG.names;
 const firebaseConfig = CONFIG.firebase;
+const WATER_GLASSES  = 8;
 
 const DEFAULT_TASKS = [
   'Track meals 🍽️',
   'Exercise 💪',
-  'Drink water (8 glasses) 💧',
   'Take vitamins/meds 💊'
 ];
 
 const fbApp = initializeApp(firebaseConfig);
-const db = getDatabase(fbApp);
-const auth = getAuth(fbApp);
+const db    = getDatabase(fbApp);
+const auth  = getAuth(fbApp);
 
-// ============================================================
-//  THEMES
-// ============================================================
-const THEMES = ['','teal','dark','warm'];
+// ── Themes ────────────────────────────────────────────
+const THEMES      = ['','teal','dark','warm'];
 const THEME_NAMES = {'':'🌸 Rose','teal':'🌿 Teal','dark':'🌙 Dark','warm':'☀️ Warm'};
 let themeIndex = 0;
-
 function cycleTheme() {
-  themeIndex = (themeIndex + 1) % THEMES.length;
+  themeIndex = (themeIndex+1) % THEMES.length;
   document.body.setAttribute('data-theme', THEMES[themeIndex]);
   localStorage.setItem('couple_theme', THEMES[themeIndex]);
-  showToast('Theme: ' + THEME_NAMES[THEMES[themeIndex]]);
+  showToast('Theme: '+THEME_NAMES[THEMES[themeIndex]]);
 }
 window.cycleTheme = cycleTheme;
 
-// ============================================================
-//  HELPERS
-// ============================================================
-function todayKey() { return new Date().toISOString().slice(0, 10); }
-
+// ── Helpers ───────────────────────────────────────────
+function todayKey() { return new Date().toISOString().slice(0,10); }
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
 }
-
 function confetti() {
   const wrap = document.createElement('div');
   wrap.className = 'confetti-wrap';
   document.body.appendChild(wrap);
   const colors = ['#e8849a','#f5b8c4','#fff','#fce4ec','#c4607a','#f9c6d0'];
-  for (let i = 0; i < 40; i++) {
+  for (let i=0;i<40;i++) {
     const p = document.createElement('div');
     p.className = 'confetti-piece';
     p.style.cssText = `left:${Math.random()*100}%;background:${colors[~~(Math.random()*colors.length)]};animation-delay:${Math.random()*0.6}s;animation-duration:${1.2+Math.random()*0.8}s;`;
     wrap.appendChild(p);
   }
-  setTimeout(() => wrap.remove(), 2500);
+  setTimeout(()=>wrap.remove(), 2500);
 }
-
-// ============================================================
-//  SYNC STATUS
-// ============================================================
 function setSyncStatus(live) {
-  document.getElementById('sync-dot').className = 'sync-dot ' + (live ? 'live' : 'offline');
-  document.getElementById('sync-label').textContent = live ? 'live' : 'offline';
+  document.getElementById('sync-dot').className = 'sync-dot '+(live?'live':'offline');
+  document.getElementById('sync-label').textContent = live?'live':'offline';
 }
 
-// ============================================================
-//  NAV
-// ============================================================
+// ── Apply names from CONFIG everywhere ────────────────
+function applyNames() {
+  document.getElementById('dash-p1-name').textContent = PARTNER_NAMES.p1;
+  document.getElementById('dash-p2-name').textContent = PARTNER_NAMES.p2;
+  document.getElementById('p1-task-card-title').textContent = '✅ ' + PARTNER_NAMES.p1 + '\u2019s Tasks';
+  document.getElementById('p2-task-card-title').textContent = '✅ ' + PARTNER_NAMES.p2 + '\u2019s Tasks';
+  document.getElementById('cal-p1-name').textContent = PARTNER_NAMES.p1;
+  document.getElementById('cal-p2-name').textContent = PARTNER_NAMES.p2;
+  document.getElementById('p1-goal-label').textContent = CALORIE_GOALS.p1;
+  document.getElementById('p2-goal-label').textContent = CALORIE_GOALS.p2;
+  ['food-user-select','log-user-select'].forEach(id => {
+    document.getElementById(id).innerHTML =
+      `<option value="p1">${escHtml(PARTNER_NAMES.p1)}</option>
+       <option value="p2">${escHtml(PARTNER_NAMES.p2)}</option>`;
+  });
+}
+
+// ── Nav ───────────────────────────────────────────────
 function showSection(name, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('section-' + name).classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('section-'+name).classList.add('active');
   if (btn) btn.classList.add('active');
 }
 window.showSection = showSection;
 
-// ============================================================
-//  PASSWORD
-// ============================================================
+// ── Password ──────────────────────────────────────────
 function checkPassword() {
-  const val = document.getElementById('pw-input').value;
+  const val   = document.getElementById('pw-input').value;
   const input = document.getElementById('pw-input');
-  const err = document.getElementById('pw-error');
+  const err   = document.getElementById('pw-error');
   if (val === APP_PASSWORD) {
     document.getElementById('lock-screen').classList.add('fade-out');
     document.getElementById('loading-overlay').classList.remove('hidden');
-    setTimeout(() => {
-      document.getElementById('lock-screen').style.display = 'none';
-    }, 650);
+    setTimeout(()=>document.getElementById('lock-screen').style.display='none', 650);
     initApp();
   } else {
     input.classList.add('error');
     err.textContent = 'Wrong password — try again 🔒';
-    setTimeout(() => input.classList.remove('error'), 500);
+    setTimeout(()=>input.classList.remove('error'), 500);
     input.value = '';
   }
 }
 window.checkPassword = checkPassword;
-document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
+document.getElementById('pw-input').addEventListener('keydown', e=>{if(e.key==='Enter')checkPassword();});
 
-// ============================================================
-//  FIREBASE DB PATHS
-//  Structure:
-//    /tasks/{person}/{date}/{taskId}  → { label, done, note, order }
-//    /calories/{date}/entries/{id}   → { name, cals, user, time }
-//    /logs/{id}                      → { text, user, date, time }
-// ============================================================
-
-// In-memory cache of latest DB snapshot (updated by listeners)
-let cache = { tasks: { p1: {}, p2: {} }, calories: {}, logs: {} };
+// ── Cache ─────────────────────────────────────────────
+let cache = { tasks:{p1:{},p2:{}}, water:{p1:{},p2:{}}, calories:{}, logs:{} };
 let listenersAttached = false;
 
 function initApp() {
-  // Theme
-  const saved = localStorage.getItem('couple_theme') || '';
-  themeIndex = THEMES.indexOf(saved); if (themeIndex < 0) themeIndex = 0;
+  const saved = localStorage.getItem('couple_theme')||'';
+  themeIndex = THEMES.indexOf(saved); if (themeIndex<0) themeIndex=0;
   document.body.setAttribute('data-theme', THEMES[themeIndex]);
-
-  // Date badge
   document.getElementById('date-badge').textContent =
-    new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short' });
-
-  // Sign in anonymously — this satisfies the auth != null Firebase rule
-  // The user never sees this; it happens silently after the password check passes
-  signInAnonymously(auth).catch(err => {
-    console.error('Auth error:', err);
-    setSyncStatus(false);
-  });
-
-  // Wait for auth to confirm before attaching DB listeners
-  onAuthStateChanged(auth, user => {
-    if (user) {
-      attachListeners();
-    }
-  });
+    new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+  applyNames();
+  signInAnonymously(auth).catch(err=>{console.error('Auth error:',err);setSyncStatus(false);});
+  onAuthStateChanged(auth, user=>{if(user) attachListeners();});
 }
 
 function attachListeners() {
@@ -602,152 +545,166 @@ function attachListeners() {
   listenersAttached = true;
   const today = todayKey();
 
-  // ---- Tasks ----
-  ['p1', 'p2'].forEach(person => {
-    const taskRef = ref(db, `tasks/${person}/${today}`);
-    onValue(taskRef, snap => {
+  ['p1','p2'].forEach(person => {
+    onValue(ref(db,`tasks/${person}/${today}`), snap => {
       setSyncStatus(true);
-      const data = snap.val() || {};
-      // If no tasks for today yet, seed defaults
-      if (Object.keys(data).length === 0) {
-        seedDefaultTasks(person, today);
-        return;
-      }
+      const data = snap.val()||{};
+      if (Object.keys(data).length===0) { seedDefaultTasks(person,today); return; }
       cache.tasks[person] = data;
       renderTasks(person);
       renderDashboard();
-      // Hide loading once first data arrives
       document.getElementById('loading-overlay').classList.add('hidden');
       document.getElementById('app').style.display = 'block';
-    }, err => { setSyncStatus(false); console.error(err); });
+    }, err=>{setSyncStatus(false);console.error(err);});
+
+    onValue(ref(db,`water/${person}/${today}`), snap=>{
+      cache.water[person] = snap.val()||{};
+      renderWaterWidget(person);
+    });
   });
 
-  // ---- Calories ----
-  const calRef = ref(db, `calories/${today}/entries`);
-  onValue(calRef, snap => {
-    cache.calories = snap.val() || {};
+  onValue(ref(db,`calories/${today}/entries`), snap=>{
+    cache.calories = snap.val()||{};
     renderCalories();
     renderDashboard();
   });
 
-  // ---- Logs ----
-  const logRef = ref(db, 'logs');
-  onValue(logRef, snap => {
-    cache.logs = snap.val() || {};
+  onValue(ref(db,'logs'), snap=>{
+    cache.logs = snap.val()||{};
     renderLogs();
   });
 }
 
 function seedDefaultTasks(person, date) {
   const updates = {};
-  DEFAULT_TASKS.forEach((label, i) => {
-    updates[`default_${i}`] = { label, done: false, note: '', order: i };
-  });
-  set(ref(db, `tasks/${person}/${date}`), updates);
+  DEFAULT_TASKS.forEach((label,i)=>{updates[`default_${i}`]={label,done:false,note:'',order:i};});
+  set(ref(db,`tasks/${person}/${date}`), updates);
 }
 
-// ============================================================
-//  TASKS
-// ============================================================
+// ── Tasks ─────────────────────────────────────────────
 function getTaskList(person) {
-  // Returns sorted array from cache
-  const raw = cache.tasks[person] || {};
-  return Object.entries(raw)
-    .map(([id, t]) => ({ id, ...t }))
-    .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  return Object.entries(cache.tasks[person]||{})
+    .map(([id,t])=>({id,...t}))
+    .sort((a,b)=>(a.order??99)-(b.order??99));
 }
 
 function renderTasks(person) {
   const tasks = getTaskList(person);
-  const done = tasks.filter(t => t.done).length;
-  const pct = tasks.length ? Math.round(done / tasks.length * 100) : 0;
+  const done  = tasks.filter(t=>t.done).length;
+  const pct   = tasks.length ? Math.round(done/tasks.length*100) : 0;
+  document.getElementById(person+'-progress-bar').style.width = pct+'%';
+  document.getElementById(person+'-task-progress').textContent = done+'/'+tasks.length;
 
-  document.getElementById(person + '-progress-bar').style.width = pct + '%';
-  document.getElementById(person + '-task-progress').textContent = done + '/' + tasks.length;
-
-  const listEl = document.getElementById(person + '-task-list');
-  if (tasks.length === 0) {
-    listEl.innerHTML = '<div class="empty-state"><div class="empty-icon">🌟</div>No tasks yet</div>';
-    return;
-  }
+  const listEl = document.getElementById(person+'-task-list');
   listEl.innerHTML = '';
-  tasks.forEach(task => {
-    const div = document.createElement('div');
-    div.className = 'task-item' + (task.done ? ' done' : '');
-    div.innerHTML = `
-      <div class="task-check ${task.done ? 'checked' : ''}" data-person="${person}" data-id="${task.id}"></div>
-      <div style="flex:1">
-        <div class="task-label">${escHtml(task.label)}</div>
-        ${task.note ? `<div class="task-note">💬 ${escHtml(task.note)}</div>` : ''}
-      </div>
-      <button class="task-note-btn" data-note-person="${person}" data-note-id="${task.id}">📝 Note</button>
-      ${!task.id.startsWith('default_') ? `<button class="task-delete" data-del-person="${person}" data-del-id="${task.id}">✕</button>` : ''}
-    `;
-    listEl.appendChild(div);
-  });
 
-  // Delegate events
-  listEl.querySelectorAll('.task-check').forEach(el => {
-    el.addEventListener('click', () => toggleTask(el.dataset.person, el.dataset.id, el));
-  });
-  listEl.querySelectorAll('[data-note-person]').forEach(el => {
-    el.addEventListener('click', () => openNoteModal(el.dataset.notePerson, el.dataset.noteId));
-  });
-  listEl.querySelectorAll('[data-del-person]').forEach(el => {
-    el.addEventListener('click', () => deleteTask(el.dataset.delPerson, el.dataset.delId));
-  });
+  if (tasks.length===0) {
+    listEl.innerHTML = '<div class="empty-state"><div class="empty-icon">🌟</div>No tasks yet</div>';
+  } else {
+    tasks.forEach(task=>{
+      const div = document.createElement('div');
+      div.className = 'task-item'+(task.done?' done':'');
+      div.innerHTML = `
+        <div class="task-check ${task.done?'checked':''}" data-person="${person}" data-id="${task.id}"></div>
+        <div style="flex:1">
+          <div class="task-label">${escHtml(task.label)}</div>
+          ${task.note?`<div class="task-note">💬 ${escHtml(task.note)}</div>`:''}
+        </div>
+        <button class="task-note-btn" data-note-person="${person}" data-note-id="${task.id}">📝 Note</button>
+        ${!task.id.startsWith('default_')?`<button class="task-delete" data-del-person="${person}" data-del-id="${task.id}">✕</button>`:''}
+      `;
+      listEl.appendChild(div);
+    });
+    listEl.querySelectorAll('.task-check').forEach(el=>
+      el.addEventListener('click',()=>toggleTask(el.dataset.person,el.dataset.id,el)));
+    listEl.querySelectorAll('[data-note-person]').forEach(el=>
+      el.addEventListener('click',()=>openNoteModal(el.dataset.notePerson,el.dataset.noteId)));
+    listEl.querySelectorAll('[data-del-person]').forEach(el=>
+      el.addEventListener('click',()=>deleteTask(el.dataset.delPerson,el.dataset.delId)));
+  }
+
+  // Append water widget after tasks
+  renderWaterWidget(person, listEl);
 }
 
 function toggleTask(person, taskId, el) {
-  const today = todayKey();
   const task = cache.tasks[person]?.[taskId];
   if (!task) return;
   const newDone = !task.done;
-  update(ref(db, `tasks/${person}/${today}/${taskId}`), { done: newDone });
-
+  update(ref(db,`tasks/${person}/${todayKey()}/${taskId}`),{done:newDone});
   el.classList.add('pop');
-  setTimeout(() => el.classList.remove('pop'), 300);
-
+  setTimeout(()=>el.classList.remove('pop'),300);
   if (newDone) {
-    showToast('✅ ' + task.label.slice(0, 28) + ' done!');
-    // Check if all tasks complete
+    showToast('✅ '+task.label.slice(0,28)+' done!');
     const all = getTaskList(person);
-    const willAllBeDone = all.filter(t => t.id !== taskId || newDone).every(t => t.id === taskId ? newDone : t.done);
-    if (willAllBeDone) setTimeout(() => { confetti(); showToast('🎉 All tasks complete!'); }, 300);
+    if (all.every(t=>t.id===taskId?newDone:t.done))
+      setTimeout(()=>{confetti();showToast('🎉 All tasks complete!');},300);
   }
 }
 window.toggleTask = toggleTask;
 
 function addTask(person) {
-  const input = document.getElementById(person + '-task-input');
+  const input = document.getElementById(person+'-task-input');
   const label = input.value.trim();
   if (!label) return;
-  const today = todayKey();
-  const existing = Object.keys(cache.tasks[person] || {}).length;
-  const newRef = push(ref(db, `tasks/${person}/${today}`));
-  set(newRef, { label, done: false, note: '', order: existing + 10 });
-  input.value = '';
+  const existing = Object.keys(cache.tasks[person]||{}).length;
+  const newRef = push(ref(db,`tasks/${person}/${todayKey()}`));
+  set(newRef,{label,done:false,note:'',order:existing+10});
+  input.value='';
   showToast('Task added!');
 }
 window.addTask = addTask;
 
 function deleteTask(person, taskId) {
-  const today = todayKey();
-  remove(ref(db, `tasks/${person}/${today}/${taskId}`));
+  remove(ref(db,`tasks/${person}/${todayKey()}/${taskId}`));
 }
 window.deleteTask = deleteTask;
 
-// ============================================================
-//  NOTE MODAL
-// ============================================================
-let modalCtx = null;
+// ── Water widget ──────────────────────────────────────
+function renderWaterWidget(person, appendTo) {
+  // Remove stale widget if re-rendering
+  const old = document.getElementById('water-widget-'+person);
+  if (old) old.remove();
 
+  const waterData  = cache.water[person]||{};
+  const glassCount = Object.values(waterData).filter(Boolean).length;
+
+  const section = document.createElement('div');
+  section.id = 'water-widget-'+person;
+  section.className = 'water-section';
+  section.innerHTML = `
+    <div class="water-label">💧 Water — <span id="water-count-${person}">${glassCount} of ${WATER_GLASSES} glasses</span></div>
+    <div class="water-glasses" id="water-glasses-${person}"></div>
+  `;
+
+  const container = appendTo || document.getElementById(person+'-task-list');
+  container.appendChild(section);
+
+  const glassesEl = document.getElementById('water-glasses-'+person);
+  for (let i=0;i<WATER_GLASSES;i++) {
+    const g = document.createElement('div');
+    g.className = 'water-glass'+(waterData[`g${i}`]?' filled':'');
+    g.innerHTML = '<div class="fill"></div><div class="drop">💧</div>';
+    g.title = 'Glass '+(i+1);
+    g.addEventListener('click',()=>toggleWater(person,i));
+    glassesEl.appendChild(g);
+  }
+}
+
+function toggleWater(person, index) {
+  const current = cache.water[person]?.[`g${index}`]||false;
+  update(ref(db,`water/${person}/${todayKey()}`),{[`g${index}`]:!current});
+  if (!current) showToast('💧 Glass '+(index+1)+' done!');
+}
+
+// ── Note modal ────────────────────────────────────────
+let modalCtx = null;
 function openNoteModal(person, taskId) {
   const task = cache.tasks[person]?.[taskId];
   if (!task) return;
-  modalCtx = { person, taskId };
-  document.getElementById('modal-title').textContent = '📝 Note for: ' + task.label;
-  document.getElementById('modal-note-input').value = task.note || '';
+  modalCtx = {person,taskId};
+  document.getElementById('modal-title').textContent = '📝 Note for: '+task.label;
+  document.getElementById('modal-note-input').value = task.note||'';
   document.getElementById('note-modal').classList.add('open');
 }
 window.openNoteModal = openNoteModal;
@@ -760,190 +717,162 @@ window.closeModal = closeModal;
 
 function saveTaskNote() {
   if (!modalCtx) return;
-  const { person, taskId } = modalCtx;
+  const {person,taskId} = modalCtx;
   const note = document.getElementById('modal-note-input').value.trim();
-  const today = todayKey();
-  update(ref(db, `tasks/${person}/${today}/${taskId}`), { note });
+  update(ref(db,`tasks/${person}/${todayKey()}/${taskId}`),{note});
   closeModal();
   showToast('Note saved 💕');
 }
 window.saveTaskNote = saveTaskNote;
-
-document.getElementById('note-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('note-modal')) closeModal();
+document.getElementById('note-modal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('note-modal')) closeModal();
 });
 
-// ============================================================
-//  CALORIES
-// ============================================================
+// ── Calories ──────────────────────────────────────────
 function renderCalories() {
-  const entries = Object.values(cache.calories || {});
-  const p1Total = entries.filter(e => e.user === 'p1').reduce((s, e) => s + (e.cals||0), 0);
-  const p2Total = entries.filter(e => e.user === 'p2').reduce((s, e) => s + (e.cals||0), 0);
+  const entries = Object.values(cache.calories||{});
+  const p1Total = entries.filter(e=>e.user==='p1').reduce((s,e)=>s+(e.cals||0),0);
+  const p2Total = entries.filter(e=>e.user==='p2').reduce((s,e)=>s+(e.cals||0),0);
 
-  document.getElementById('cal-combined-total').textContent = p1Total + p2Total;
+  document.getElementById('cal-combined-total').textContent = p1Total+p2Total;
   document.getElementById('p1-cal-num').textContent = p1Total;
   document.getElementById('p2-cal-num').textContent = p2Total;
-  document.getElementById('p1-cal-bar').style.width = Math.min(p1Total / CALORIE_GOAL * 100, 100) + '%';
-  document.getElementById('p2-cal-bar').style.width = Math.min(p2Total / CALORIE_GOAL * 100, 100) + '%';
+  document.getElementById('p1-cal-bar').style.width = Math.min(p1Total/CALORIE_GOALS.p1*100,100)+'%';
+  document.getElementById('p2-cal-bar').style.width = Math.min(p2Total/CALORIE_GOALS.p2*100,100)+'%';
 
   const listEl = document.getElementById('food-log-list');
-  if (entries.length === 0) {
-    listEl.innerHTML = '<div class="empty-state"><div class="empty-icon">🥑</div>Nothing logged yet!</div>';
+  if (entries.length===0) {
+    listEl.innerHTML='<div class="empty-state"><div class="empty-icon">🥑</div>Nothing logged yet!</div>';
     return;
   }
-  listEl.innerHTML = '';
-  // Sort by time descending
-  const sorted = Object.entries(cache.calories || {}).sort((a, b) => (b[1].time||0) - (a[1].time||0));
-  sorted.forEach(([id, e]) => {
-    const div = document.createElement('div');
-    div.className = 'food-item';
-    div.innerHTML = `
-      <div class="food-name">${escHtml(e.name)}</div>
-      <div class="food-user-tag">${escHtml(PARTNER_NAMES[e.user] || e.user)}</div>
-      <div class="food-cals">${e.cals} kcal</div>
-      <button class="food-delete" data-food-id="${id}">✕</button>
-    `;
-    listEl.appendChild(div);
-  });
-  listEl.querySelectorAll('.food-delete').forEach(el => {
-    el.addEventListener('click', () => deleteFood(el.dataset.foodId));
-  });
+  listEl.innerHTML='';
+  Object.entries(cache.calories||{})
+    .sort((a,b)=>(b[1].time||0)-(a[1].time||0))
+    .forEach(([id,e])=>{
+      const div = document.createElement('div');
+      div.className='food-item';
+      div.innerHTML=`
+        <div class="food-name">${escHtml(e.name)}</div>
+        <div class="food-user-tag">${escHtml(PARTNER_NAMES[e.user]||e.user)}</div>
+        <div class="food-cals">${e.cals} kcal</div>
+        <button class="food-delete" data-food-id="${id}">✕</button>
+      `;
+      listEl.appendChild(div);
+    });
+  listEl.querySelectorAll('.food-delete').forEach(el=>
+    el.addEventListener('click',()=>deleteFood(el.dataset.foodId)));
 }
 
 function addFood() {
   const name = document.getElementById('food-name-input').value.trim();
   const cals = parseInt(document.getElementById('food-cal-input').value);
   const user = document.getElementById('food-user-select').value;
-  if (!name || isNaN(cals) || cals < 0) { showToast('Please enter food name & calories'); return; }
-  const today = todayKey();
-  const newRef = push(ref(db, `calories/${today}/entries`));
-  set(newRef, { name, cals, user, time: Date.now() });
-  document.getElementById('food-name-input').value = '';
-  document.getElementById('food-cal-input').value = '';
-  showToast('🍽️ Logged ' + cals + ' kcal for ' + PARTNER_NAMES[user]);
+  if (!name||isNaN(cals)||cals<0){showToast('Please enter food name & calories');return;}
+  const newRef = push(ref(db,`calories/${todayKey()}/entries`));
+  set(newRef,{name,cals,user,time:Date.now()});
+  document.getElementById('food-name-input').value='';
+  document.getElementById('food-cal-input').value='';
+  showToast('🍽️ Logged '+cals+' kcal for '+PARTNER_NAMES[user]);
 }
 window.addFood = addFood;
 
-function deleteFood(id) {
-  const today = todayKey();
-  remove(ref(db, `calories/${today}/entries/${id}`));
-}
+function deleteFood(id){remove(ref(db,`calories/${todayKey()}/entries/${id}`));}
 
-function clearTodayFood() {
-  if (!confirm('Clear all food entries for today?')) return;
-  const today = todayKey();
-  remove(ref(db, `calories/${today}/entries`));
+function clearTodayFood(){
+  if(!confirm('Clear all food entries for today?')) return;
+  remove(ref(db,`calories/${todayKey()}/entries`));
 }
 window.clearTodayFood = clearTodayFood;
 
-// ============================================================
-//  PROGRESS LOGS
-// ============================================================
+// ── Logs ──────────────────────────────────────────────
 function renderLogs() {
   const today = todayKey();
-  const allLogs = Object.entries(cache.logs || {})
-    .map(([id, l]) => ({ id, ...l }))
-    .sort((a, b) => (b.time||0) - (a.time||0));
+  const allLogs = Object.entries(cache.logs||{})
+    .map(([id,l])=>({id,...l}))
+    .sort((a,b)=>(b.time||0)-(a.time||0));
 
-  // Dashboard: today's last 3
-  const todayLogs = allLogs.filter(l => l.date === today).slice(0, 3);
+  const todayLogs = allLogs.filter(l=>l.date===today).slice(0,3);
   const dashEl = document.getElementById('dash-recent-logs');
   if (dashEl) {
     dashEl.innerHTML = todayLogs.length
-      ? todayLogs.map(l => logHtml(l, true)).join('')
+      ? todayLogs.map(l=>logHtml(l,true)).join('')
       : '<div class="empty-state"><div class="empty-icon">🌱</div>No notes yet today</div>';
   }
-
-  // Full list
   const listEl = document.getElementById('log-list');
   if (!listEl) return;
   listEl.innerHTML = allLogs.length
-    ? allLogs.map(l => logHtml(l, false)).join('')
+    ? allLogs.map(l=>logHtml(l,false)).join('')
     : '<div class="empty-state"><div class="empty-icon">📖</div>Your story starts here!</div>';
-
-  listEl.querySelectorAll('.log-delete').forEach(el => {
-    el.addEventListener('click', () => deleteLog(el.dataset.logId));
-  });
+  listEl.querySelectorAll('.log-delete').forEach(el=>
+    el.addEventListener('click',()=>deleteLog(el.dataset.logId)));
 }
 
-function logHtml(l, compact) {
-  const d = new Date(l.time || Date.now());
-  const timeStr = d.toLocaleDateString('en-GB', { day:'numeric', month:'short' })
-    + ' ' + d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
-  return `
-    <div class="log-entry">
-      <div class="log-entry-header">
-        <span class="log-user-tag">${escHtml(PARTNER_NAMES[l.user] || l.user)}</span>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <span class="log-meta">${timeStr}</span>
-          ${!compact ? `<button class="log-delete" data-log-id="${l.id}">✕</button>` : ''}
-        </div>
+function logHtml(l,compact) {
+  const d = new Date(l.time||Date.now());
+  const timeStr = d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})
+    +' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  return `<div class="log-entry">
+    <div class="log-entry-header">
+      <span class="log-user-tag">${escHtml(PARTNER_NAMES[l.user]||l.user)}</span>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="log-meta">${timeStr}</span>
+        ${!compact?`<button class="log-delete" data-log-id="${l.id}">✕</button>`:''}
       </div>
-      <div class="log-text">${escHtml(l.text)}</div>
-    </div>`;
+    </div>
+    <div class="log-text">${escHtml(l.text)}</div>
+  </div>`;
 }
 
 function addLog() {
   const text = document.getElementById('log-text-input').value.trim();
   const user = document.getElementById('log-user-select').value;
   if (!text) return;
-  const newRef = push(ref(db, 'logs'));
-  set(newRef, { text, user, date: todayKey(), time: Date.now() });
-  document.getElementById('log-text-input').value = '';
+  const newRef = push(ref(db,'logs'));
+  set(newRef,{text,user,date:todayKey(),time:Date.now()});
+  document.getElementById('log-text-input').value='';
   showToast('Note saved 💕');
 }
 window.addLog = addLog;
 
-function deleteLog(id) {
-  remove(ref(db, `logs/${id}`));
-}
+function deleteLog(id){remove(ref(db,`logs/${id}`));}
 
-function clearOldLogs() {
-  const today = todayKey();
-  if (!confirm('Remove all notes from before today?')) return;
-  Object.entries(cache.logs || {}).forEach(([id, l]) => {
-    if (l.date !== today) remove(ref(db, `logs/${id}`));
+function clearOldLogs(){
+  const today=todayKey();
+  if(!confirm('Remove all notes from before today?')) return;
+  Object.entries(cache.logs||{}).forEach(([id,l])=>{
+    if(l.date!==today) remove(ref(db,`logs/${id}`));
   });
 }
 window.clearOldLogs = clearOldLogs;
 
-// ============================================================
-//  DASHBOARD
-// ============================================================
+// ── Dashboard ─────────────────────────────────────────
 function renderDashboard() {
-  const p1Tasks = getTaskList('p1');
-  const p2Tasks = getTaskList('p2');
-  const p1Done = p1Tasks.filter(t => t.done).length;
-  const p2Done = p2Tasks.filter(t => t.done).length;
-  const totalAll = p1Tasks.length + p2Tasks.length;
-  const totalDone = p1Done + p2Done;
-  const pct = totalAll ? Math.round(totalDone / totalAll * 100) : 0;
+  const p1Tasks=getTaskList('p1'), p2Tasks=getTaskList('p2');
+  const p1Done=p1Tasks.filter(t=>t.done).length, p2Done=p2Tasks.filter(t=>t.done).length;
+  const totalAll=p1Tasks.length+p2Tasks.length, totalDone=p1Done+p2Done;
+  const pct=totalAll?Math.round(totalDone/totalAll*100):0;
 
-  document.getElementById('dash-tasks-done').textContent = totalDone;
-  document.getElementById('dash-tasks-total').textContent = 'of ' + totalAll + ' tasks';
-  document.getElementById('dash-p1-tasks').textContent = p1Done + '/' + p1Tasks.length + ' tasks done';
-  document.getElementById('dash-p2-tasks').textContent = p2Done + '/' + p2Tasks.length + ' tasks done';
-  document.getElementById('dash-prog-bar').style.width = pct + '%';
-  document.getElementById('dash-prog-label').textContent = pct + '%';
+  document.getElementById('dash-tasks-done').textContent=totalDone;
+  document.getElementById('dash-tasks-total').textContent='of '+totalAll+' tasks';
+  document.getElementById('dash-p1-tasks').textContent=p1Done+'/'+p1Tasks.length+' tasks done';
+  document.getElementById('dash-p2-tasks').textContent=p2Done+'/'+p2Tasks.length+' tasks done';
+  document.getElementById('dash-prog-bar').style.width=pct+'%';
+  document.getElementById('dash-prog-label').textContent=pct+'%';
 
-  const entries = Object.values(cache.calories || {});
-  const p1Cals = entries.filter(e => e.user === 'p1').reduce((s, e) => s + (e.cals||0), 0);
-  const p2Cals = entries.filter(e => e.user === 'p2').reduce((s, e) => s + (e.cals||0), 0);
-  document.getElementById('dash-cals-total').textContent = p1Cals + p2Cals;
-  document.getElementById('dash-p1-cals').textContent = p1Cals + ' kcal logged';
-  document.getElementById('dash-p2-cals').textContent = p2Cals + ' kcal logged';
+  const entries=Object.values(cache.calories||{});
+  const p1Cals=entries.filter(e=>e.user==='p1').reduce((s,e)=>s+(e.cals||0),0);
+  const p2Cals=entries.filter(e=>e.user==='p2').reduce((s,e)=>s+(e.cals||0),0);
+  document.getElementById('dash-cals-total').textContent=p1Cals+p2Cals;
+  document.getElementById('dash-p1-cals').textContent=p1Cals+' kcal logged';
+  document.getElementById('dash-p2-cals').textContent=p2Cals+' kcal logged';
 
   renderLogs();
 }
 
-// ============================================================
-//  KEYBOARD SHORTCUTS
-// ============================================================
-document.getElementById('p1-task-input').addEventListener('keydown', e => { if (e.key === 'Enter') addTask('p1'); });
-document.getElementById('p2-task-input').addEventListener('keydown', e => { if (e.key === 'Enter') addTask('p2'); });
-document.getElementById('food-cal-input').addEventListener('keydown', e => { if (e.key === 'Enter') addFood(); });
-
+// ── Keyboard shortcuts ────────────────────────────────
+document.getElementById('p1-task-input').addEventListener('keydown',e=>{if(e.key==='Enter')addTask('p1');});
+document.getElementById('p2-task-input').addEventListener('keydown',e=>{if(e.key==='Enter')addTask('p2');});
+document.getElementById('food-cal-input').addEventListener('keydown',e=>{if(e.key==='Enter')addFood();});
 </script>
 </body>
 </html>
